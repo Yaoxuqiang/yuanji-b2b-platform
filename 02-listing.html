@@ -1,194 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>找货比价 · 源集 YUANJI</title>
-<link rel="stylesheet" href="assets/tokens.css">
-<link rel="stylesheet" href="assets/app.css">
-<style>
-  .listing-layout { display:grid; grid-template-columns:222px 1fr 244px; gap:14px; align-items:start; }
-  .kw-banner { background:var(--surface); border:1px solid var(--line); border-radius:var(--r-xs); padding:14px 16px; margin-bottom:14px; font-size:13px; }
-  .kw-banner b { color:var(--blue-700); }
-  .active-filters { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
-  .active-filters .af { background:var(--blue-050); border:1px solid var(--line-blue); color:var(--blue-800); padding:3px 8px; font-size:11px; display:flex; align-items:center; gap:5px; }
-  .pagination { text-align:center; margin-top:28px; }
-  .pagination a { display:inline-block; min-width:34px; padding:7px 10px; margin:0 3px; border:1px solid var(--line); border-radius:var(--r-xs); font-size:13px; color:var(--ink-700); }
-  .pagination a.cur { background:var(--blue-700); color:#fff; border-color:var(--blue-700); }
-  /* 创新：结果页顶部参数刻度尺 */
-  .scale-strip { background:var(--blue-900); color:#fff; padding:12px 16px; display:flex; align-items:center; gap:24px; margin-bottom:14px; }
-  .scale-strip .sc { display:flex; align-items:center; gap:8px; font-size:11px; color:rgba(255,255,255,.72); }
-  .scale-strip .sc b { color:#fff; font-family:var(--font-num); font-size:13px; }
-  .scale-strip .ruler-mini { flex:1; display:flex; height:6px; gap:2px; max-width:220px; }
-  .scale-strip .ruler-mini span { flex:1; }
-  .scale-strip .ruler-mini .a{background:rgba(255,255,255,.25)} .scale-strip .ruler-mini .b{background:rgba(255,255,255,.55)} .scale-strip .ruler-mini .c{background:#fff}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>源集 · 分类结果</title>
+  <link rel="stylesheet" href="assets/tokens.css">
+  <link rel="stylesheet" href="assets/app.css">
+  <script defer src="assets/icons.js"></script>
+  <script defer src="assets/app.js"></script>
+  <script defer src="assets/pages.js"></script>
 </head>
-<body>
-<script src="assets/icons.js"></script>
-
-<div class="topbar"><div class="wrap">
-  <div class="tb-left">专业批发采购平台 · 参数透明，供给可比</div>
-  <div class="tb-right"><a href="#">采购指南</a><a href="04-workbench.html">我的工作台</a><a href="#">帮助中心</a><a href="#" style="color:#fff">登录 / 注册</a></div>
-</div></div>
-
-<header class="site-header"><div class="wrap header-main">
-  <a href="01-home.html" class="logo"><span class="logo-mark">源</span><span class="logo-text">源集<small>YUANJI</small></span></a>
-  <div class="search-box"><input type="text" placeholder="搜索商品、货号或产业带"><button class="btn-search"><svg class="ico"><use href="#i-search"></use></svg>搜索</button></div>
-  <div class="img-search"><svg class="ico"><use href="#i-image"></use></svg>图片找货</div>
-  <div class="header-actions">
-    <a href="04-workbench.html" class="ha-item"><svg class="ico ha-ico"><use href="#i-inquiry"></use></svg>询价篮<span class="badge hidden" id="badge-inquiry">0</span></a>
-    <a href="04-workbench.html" class="ha-item"><svg class="ico ha-ico"><use href="#i-cart"></use></svg>采购车<span class="badge hidden" id="badge-cart">0</span></a>
-  </div>
-</div>
-<nav class="nav-bar"><div class="wrap">
-  <div class="nav-cat-all"><svg class="ico"><use href="#i-menu"></use></svg>全部商品分类</div>
-  <div class="nav-links"><a href="01-home.html">首页</a><a href="02-listing.html" class="active">源头工厂</a><a href="02-listing.html">一件代发</a><a href="02-listing.html">定制加工</a><a href="02-listing.html">进口好货</a></div>
-  <div class="nav-extra"><span>今日询价 <b class="num">2,481</b></span></div>
-</div></nav></header>
-
-<div class="wrap">
-  <div class="crumb"><a href="01-home.html">首页</a><span>/</span><a href="#">工业品·五金</a><span>/</span>搜索结果</div>
-
-  <div class="kw-banner">
-    找到 <b class="num">1,286</b> 件相关货源 · 关键词「<b id="kw-display">304不锈钢保温杯</b>」
-    <div class="active-filters">
-      <span class="af">起批量 ≤ 100 件 <svg class="ico ico-sm"><use href="#i-close"></use></svg></span>
-      <span class="af">交期 ≤ 48h <svg class="ico ico-sm"><use href="#i-close"></use></svg></span>
-      <span class="af">源头工厂 <svg class="ico ico-sm"><use href="#i-close"></use></svg></span>
-      <span class="af">浙江金华 <svg class="ico ico-sm"><use href="#i-close"></use></svg></span>
+<body data-page="listing">
+  <header class="site-header" id="site-header"></header>
+  <main class="wrap page">
+    <nav class="crumb" aria-label="当前位置"><a href="01-home.html">首页</a><span>/</span><span id="list-crumb">日用百货 / 杯壶水具</span></nav>
+    <div class="title-line"><h1 id="list-title">保温杯</h1><p role="status">找到 <strong id="result-count" class="num">0</strong> 件商品</p></div>
+    <div class="chips" id="filters-active" aria-label="已选筛选条件"></div>
+    <div class="listing-layout">
+      <aside class="panel filter-panel">
+        <h2 id="filter-title">筛选商品</h2>
+        <form id="filters" aria-labelledby="filter-title">
+          <fieldset><legend>价格区间</legend><div class="price-range"><input name="min" type="number" min="0" step=".01" placeholder="¥ 0" aria-label="最低首档单价"><span>–</span><input name="max" type="number" min="0" step=".01" placeholder="¥ 不限" aria-label="最高首档单价"></div></fieldset>
+          <div id="filter-options"></div>
+          <button class="button primary full" type="submit">应用筛选</button>
+        </form>
+      </aside>
+      <section class="panel result-panel" aria-label="商品结果">
+        <div class="result-toolbar">
+          <div class="sort" aria-label="排序">
+            <button type="button" data-sort="recommended" aria-pressed="true">综合</button><button type="button" data-sort="price" aria-pressed="false">价格 <span aria-hidden="true">↕</span></button><button type="button" data-sort="sold" aria-pressed="false">成交量 <span aria-hidden="true">↕</span></button><button type="button" data-sort="lead" aria-pressed="false">交期 <span aria-hidden="true">↕</span></button>
+          </div>
+          <div class="segments" aria-label="布局">
+            <button type="button" data-view="grid" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-grid"/></svg>网格</button><button type="button" data-view="list" aria-pressed="true"><svg class="ico" aria-hidden="true"><use href="#i-list"/></svg>对比列表</button>
+          </div>
+        </div>
+        <div class="compare-tools"><strong id="compare-count">已勾选 0 / 4</strong><label class="choice"><input type="checkbox" id="only-selected">仅看已选</label><details id="trial" class="trial"><summary>按采购量试算</summary><div class="trial-body"><label for="trial-qty">计划采购件数</label><input id="trial-qty" type="number" min="1" step="1" value="500"><div id="trial-results" aria-live="polite"></div></div></details></div>
+        <div id="results"></div>
+        <nav id="pagination" class="pagination" aria-label="结果分页"></nav>
+      </section>
+      <aside class="panel inquiry-dock" aria-labelledby="dock-title">
+        <h2 id="dock-title">询价篮 <span class="badge" id="dock-count">0</span></h2>
+        <ul class="dock-list" id="dock-list"></ul>
+        <a class="button primary full" href="04-workbench.html?tab=inquiry">去工作台询价</a>
+      </aside>
     </div>
-  </div>
-
-  <!-- 创新点：价格刻度尺 -->
-  <div class="scale-strip">
-    <span class="swiss-num" style="color:#fff;border-color:rgba(255,255,255,.5)">PRICE SCALE</span>
-    <div class="sc"><span>本页价格区间</span><b>¥7.60 — ¥16.50</b></div>
-    <div class="ruler-mini"><span class="a"></span><span class="b"></span><span class="c"></span></div>
-    <div class="sc"><span>中位单价</span><b>¥11.80</b></div>
-    <div class="sc"><span>较昨日</span><b>−2.3%</b></div>
-  </div>
-
-  <div class="listing-layout">
-
-    <aside>
-      <div class="filter-panel">
-        <div class="filter-group"><h5>价格区间</h5><div class="price-range"><input type="text" placeholder="¥ 最低"><span>—</span><input type="text" placeholder="¥ 最高"></div><div style="margin-top:10px"><button class="btn-ghost" style="width:100%;padding:6px">确定</button></div></div>
-        <div class="filter-group"><h5>起批量 MOQ</h5><div class="filter-tags"><span class="filter-tag active">不限</span><span class="filter-tag">≤50件</span><span class="filter-tag">≤100件</span><span class="filter-tag">≤500件</span><span class="filter-tag">≥1000件</span></div></div>
-        <div class="filter-group"><h5>发货时效</h5><div class="filter-tags"><span class="filter-tag">24h发货</span><span class="filter-tag active">48h发货</span><span class="filter-tag">72h发货</span></div></div>
-        <div class="filter-group"><h5>供应商认证</h5><div class="filter-tags"><span class="filter-tag active">源头工厂</span><span class="filter-tag">实力商家</span><span class="filter-tag">支持定制</span><span class="filter-tag">一件代发</span></div></div>
-        <div class="filter-group"><h5>材质</h5><div class="filter-tags"><span class="filter-tag">304不锈钢</span><span class="filter-tag">316不锈钢</span><span class="filter-tag">PLA可降解</span><span class="filter-tag">亚克力</span></div></div>
-        <div class="filter-group"><h5>发货地</h5><div class="filter-tags"><span class="filter-tag active">浙江金华</span><span class="filter-tag">广东深圳</span><span class="filter-tag">广东东莞</span><span class="filter-tag">江苏苏州</span></div></div>
-        <div class="filter-group" style="text-align:center"><button class="btn-ghost" style="width:100%">清空全部筛选</button></div>
-      </div>
-    </aside>
-
-    <main>
-      <div class="result-toolbar">
-        <div class="sort-tabs"><span class="sort-tab active">综合</span><span class="sort-tab">价格 ↑</span><span class="sort-tab">成交量 ↓</span><span class="sort-tab">交期 ↑</span></div>
-        <div class="view-switch">
-          <button class="view-btn active" id="btn-view-grid"><svg class="ico ico-sm"><use href="#i-grid"></use></svg>网格</button>
-          <button class="view-btn" id="btn-view-list"><svg class="ico ico-sm"><use href="#i-list"></use></svg>对比列表</button>
-        </div>
-      </div>
-
-      <div class="compare-bar hidden" id="compare-bar">
-        <span class="cb-count">已选 <span id="compare-count">0</span> 件对比</span>
-        <span class="muted tiny" style="flex:1">横向对齐价格梯度 / MOQ / 交期 / 资质，最多 4 件</span>
-        <button class="btn-primary" id="btn-compare" disabled><svg class="ico ico-sm"><use href="#i-ruler"></use></svg>开始对比</button>
-      </div>
-
-      <div id="view-grid"><div class="product-grid" style="grid-template-columns:repeat(3,1fr)">
-
-        <div class="product-card"><div class="pc-img"><label class="pc-check"><input type="checkbox" data-inquiry-cb="p1"></label><div data-art="tumbler"></div><span class="img-count">6 图</span></div>
-          <div class="pc-body"><div class="decision-band"><div class="price-line"><span class="price-main"><span class="cur">¥</span>12.50</span><span class="price-step">≥2000 <b>¥10.80</b></span></div><div class="ruler"><span class="seg s1"></span><span class="seg s2"></span><span class="seg s3"></span></div><div class="ruler-labels"><span>50件 ¥12.50</span><span>500件 ¥11.20</span><span>2000件 ¥10.80</span></div><div class="decision-meta"><span class="moq"><b>50</b> 件起批</span><span class="tag-lead">48h发货</span></div></div>
-          <div class="pc-title">304不锈钢保温杯 定制logo 真空锁温 商务礼品杯</div><div class="pc-sold">30天成交 <b>1.2万</b> 件 · 回头率 32%</div><div class="pc-supplier">永康市金盾工贸有限公司 <span class="loc">· 浙江金华</span></div>
-          <div class="pc-bottom"><div class="badge-row"><span class="badge-tag qual">源头工厂</span><span class="badge-tag">一件代发</span></div><div class="pc-spec">SPEC A-203 · 4色 / 3容量</div><div class="pc-actions"><button class="btn-add-inquiry" data-add-inquiry="p1" data-title="304不锈钢保温杯 定制logo" data-price="12.50" data-moq="50件起批" data-glyph="i-package"><svg class="ico ico-sm"><use href="#i-plus"></use></svg>加入询价</button><a href="03-detail.html" class="btn-detail"><svg class="ico ico-sm"><use href="#i-arrow"></use></svg></a></div></div></div>
-        </div>
-
-        <div class="product-card"><div class="pc-img"><label class="pc-check"><input type="checkbox" data-inquiry-cb="p1b"></label><div data-art="tumbler"></div><span class="img-count">8 图</span></div>
-          <div class="pc-body"><div class="decision-band"><div class="price-line"><span class="price-main"><span class="cur">¥</span>11.80</span><span class="price-step">≥3000 <b>¥9.90</b></span></div><div class="ruler"><span class="seg s1"></span><span class="seg s2"></span><span class="seg s3"></span></div><div class="ruler-labels"><span>100件 ¥11.80</span><span>500件 ¥10.90</span><span>3000件 ¥9.90</span></div><div class="decision-meta"><span class="moq"><b>100</b> 件起批</span><span class="tag-lead">24h发货</span></div></div>
-          <div class="pc-title">304不锈钢保温杯 大容量运动水杯 现货批发</div><div class="pc-sold">30天成交 <b>9,860</b> 件 · 回头率 29%</div><div class="pc-supplier">永康市百川杯业有限公司 <span class="loc">· 浙江金华</span></div>
-          <div class="pc-bottom"><div class="badge-row"><span class="badge-tag qual">源头工厂</span><span class="badge-tag">现货</span></div><div class="pc-spec">SPEC A-118 · 6色</div><div class="pc-actions"><button class="btn-add-inquiry" data-add-inquiry="p1b" data-title="304不锈钢保温杯 大容量" data-price="11.80" data-moq="100件起批" data-glyph="i-package"><svg class="ico ico-sm"><use href="#i-plus"></use></svg>加入询价</button><a href="03-detail.html" class="btn-detail"><svg class="ico ico-sm"><use href="#i-arrow"></use></svg></a></div></div></div>
-        </div>
-
-        <div class="product-card"><div class="pc-img"><label class="pc-check"><input type="checkbox" data-inquiry-cb="p1c"></label><div data-art="tumbler"></div><span class="img-count">5 图</span></div>
-          <div class="pc-body"><div class="decision-band"><div class="price-line"><span class="price-main"><span class="cur">¥</span>14.20</span><span class="price-step">≥1000 <b>¥12.00</b></span></div><div class="ruler"><span class="seg s1"></span><span class="seg s2"></span><span class="seg s3"></span></div><div class="ruler-labels"><span>30件 ¥14.20</span><span>300件 ¥13.10</span><span>1000件 ¥12.00</span></div><div class="decision-meta"><span class="moq"><b>30</b> 件起批</span><span class="tag-lead">48h发货</span></div></div>
-          <div class="pc-title">316不锈钢保温杯 医用级 智能显温 礼品定制</div><div class="pc-sold">30天成交 <b>4,320</b> 件 · 回头率 38%</div><div class="pc-supplier">义乌市铭品日用品厂 <span class="loc">· 浙江金华</span></div>
-          <div class="pc-bottom"><div class="badge-row"><span class="badge-tag qual">实力商家</span><span class="badge-tag">支持定制</span></div><div class="pc-spec">SPEC A-320 · 3色</div><div class="pc-actions"><button class="btn-add-inquiry" data-add-inquiry="p1c" data-title="316不锈钢保温杯 智能显温" data-price="14.20" data-moq="30件起批" data-glyph="i-package"><svg class="ico ico-sm"><use href="#i-plus"></use></svg>加入询价</button><a href="03-detail.html" class="btn-detail"><svg class="ico ico-sm"><use href="#i-arrow"></use></svg></a></div></div></div>
-        </div>
-
-        <div class="product-card"><div class="pc-img"><label class="pc-check"><input type="checkbox" data-inquiry-cb="p1d"></label><div data-art="tumbler"></div><span class="img-count">7 图</span></div>
-          <div class="pc-body"><div class="decision-band"><div class="price-line"><span class="price-main"><span class="cur">¥</span>9.80</span><span class="price-step">≥5000 <b>¥7.60</b></span></div><div class="ruler"><span class="seg s1"></span><span class="seg s2"></span><span class="seg s3"></span></div><div class="ruler-labels"><span>200件 ¥9.80</span><span>1000件 ¥8.70</span><span>5000件 ¥7.60</span></div><div class="decision-meta"><span class="moq"><b>200</b> 件起批</span><span class="tag-lead">72h发货</span></div></div>
-          <div class="pc-title">真空保温杯 简约便携 学生水杯 工厂直供</div><div class="pc-sold">30天成交 <b>2.1万</b> 件 · 回头率 24%</div><div class="pc-supplier">永康市新锐工贸有限公司 <span class="loc">· 浙江金华</span></div>
-          <div class="pc-bottom"><div class="badge-row"><span class="badge-tag qual">源头工厂</span><span class="badge-tag">一件代发</span></div><div class="pc-spec">SPEC A-455 · 5色</div><div class="pc-actions"><button class="btn-add-inquiry" data-add-inquiry="p1d" data-title="真空保温杯 简约便携" data-price="9.80" data-moq="200件起批" data-glyph="i-package"><svg class="ico ico-sm"><use href="#i-plus"></use></svg>加入询价</button><a href="03-detail.html" class="btn-detail"><svg class="ico ico-sm"><use href="#i-arrow"></use></svg></a></div></div></div>
-        </div>
-
-        <div class="product-card"><div class="pc-img"><label class="pc-check"><input type="checkbox" data-inquiry-cb="p1e"></label><div data-art="tumbler"></div><span class="img-count">4 图</span></div>
-          <div class="pc-body"><div class="decision-band"><div class="price-line"><span class="price-main"><span class="cur">¥</span>16.50</span><span class="price-step">≥800 <b>¥14.20</b></span></div><div class="ruler"><span class="seg s1"></span><span class="seg s2"></span><span class="seg s3"></span></div><div class="ruler-labels"><span>50件 ¥16.50</span><span>300件 ¥15.30</span><span>800件 ¥14.20</span></div><div class="decision-meta"><span class="moq"><b>50</b> 件起批</span><span class="tag-lead">48h发货</span></div></div>
-          <div class="pc-title">双层不锈钢保温壶 家用大容量 商务礼品套装</div><div class="pc-sold">30天成交 <b>1,760</b> 件 · 回头率 42%</div><div class="pc-supplier">金华市恒远金属制品厂 <span class="loc">· 浙江金华</span></div>
-          <div class="pc-bottom"><div class="badge-row"><span class="badge-tag qual">源头工厂</span><span class="badge-tag">礼盒装</span></div><div class="pc-spec">SPEC A-602 · 2规格</div><div class="pc-actions"><button class="btn-add-inquiry" data-add-inquiry="p1e" data-title="双层不锈钢保温壶 礼盒装" data-price="16.50" data-moq="50件起批" data-glyph="i-package"><svg class="ico ico-sm"><use href="#i-plus"></use></svg>加入询价</button><a href="03-detail.html" class="btn-detail"><svg class="ico ico-sm"><use href="#i-arrow"></use></svg></a></div></div></div>
-        </div>
-
-        <div class="product-card"><div class="pc-img"><label class="pc-check"><input type="checkbox" data-inquiry-cb="p1f"></label><div data-art="tumbler"></div><span class="img-count">6 图</span></div>
-          <div class="pc-body"><div class="decision-band"><div class="price-line"><span class="price-main"><span class="cur">¥</span>13.90</span><span class="price-step">≥1500 <b>¥11.50</b></span></div><div class="ruler"><span class="seg s1"></span><span class="seg s2"></span><span class="seg s3"></span></div><div class="ruler-labels"><span>80件 ¥13.90</span><span>500件 ¥12.60</span><span>1500件 ¥11.50</span></div><div class="decision-meta"><span class="moq"><b>80</b> 件起批</span><span class="tag-lead">24h发货</span></div></div>
-          <div class="pc-title">316医用级保温杯 儿童吸管杯 定制刻字logo</div><div class="pc-sold">30天成交 <b>5,410</b> 件 · 回头率 33%</div><div class="pc-supplier">义乌市优尚百货商行 <span class="loc">· 浙江金华</span></div>
-          <div class="pc-bottom"><div class="badge-row"><span class="badge-tag qual">实力商家</span><span class="badge-tag">支持定制</span></div><div class="pc-spec">SPEC A-771 · 4色</div><div class="pc-actions"><button class="btn-add-inquiry" data-add-inquiry="p1f" data-title="316医用级保温杯 定制刻字" data-price="13.90" data-moq="80件起批" data-glyph="i-package"><svg class="ico ico-sm"><use href="#i-plus"></use></svg>加入询价</button><a href="03-detail.html" class="btn-detail"><svg class="ico ico-sm"><use href="#i-arrow"></use></svg></a></div></div></div>
-        </div>
-
-      </div></div>
-
-      <div id="view-list" class="hidden">
-        <table class="compare-table">
-          <thead><tr><th style="width:180px">商品</th><th>阶梯价梯度</th><th>起批量</th><th>交期</th><th>30天成交</th><th>供应商 / 产地</th><th>资质</th><th style="width:82px">操作</th></tr></thead>
-          <tbody>
-            <tr><td><div class="ct-item"><div class="ct-thumb"><svg class="ico"><use href="#i-package"></use></svg></div><div class="ct-name">304不锈钢保温杯 定制logo</div></div></td><td class="ct-price">¥12.50<small style="display:block;color:var(--ink-500);font-size:10px">2000件 ¥10.80</small></td><td>50 件</td><td>48h</td><td>1.2万</td><td>永康金盾工贸<br><span class="muted tiny">浙江金华</span></td><td><span class="badge-tag qual">源头工厂</span></td><td><button class="btn-add-inquiry" data-add-inquiry="p1" data-title="304不锈钢保温杯 定制logo" data-price="12.50" data-moq="50件起批" data-glyph="i-package">询价</button></td></tr>
-            <tr><td><div class="ct-item"><div class="ct-thumb"><svg class="ico"><use href="#i-package"></use></svg></div><div class="ct-name">304不锈钢保温杯 大容量运动</div></div></td><td class="ct-price">¥11.80<small style="display:block;color:var(--ink-500);font-size:10px">3000件 ¥9.90</small></td><td>100 件</td><td>24h</td><td>9,860</td><td>永康百川杯业<br><span class="muted tiny">浙江金华</span></td><td><span class="badge-tag qual">源头工厂</span></td><td><button class="btn-add-inquiry" data-add-inquiry="p1b" data-title="304不锈钢保温杯 大容量" data-price="11.80" data-moq="100件起批" data-glyph="i-package">询价</button></td></tr>
-            <tr><td><div class="ct-item"><div class="ct-thumb"><svg class="ico"><use href="#i-package"></use></svg></div><div class="ct-name">316不锈钢保温杯 智能显温</div></div></td><td class="ct-price">¥14.20<small style="display:block;color:var(--ink-500);font-size:10px">1000件 ¥12.00</small></td><td>30 件</td><td>48h</td><td>4,320</td><td>义乌铭品日用品<br><span class="muted tiny">浙江金华</span></td><td><span class="badge-tag qual">实力商家</span></td><td><button class="btn-add-inquiry" data-add-inquiry="p1c" data-title="316不锈钢保温杯 智能显温" data-price="14.20" data-moq="30件起批" data-glyph="i-package">询价</button></td></tr>
-            <tr><td><div class="ct-item"><div class="ct-thumb"><svg class="ico"><use href="#i-package"></use></svg></div><div class="ct-name">真空保温杯 简约便携学生杯</div></div></td><td class="ct-price">¥9.80<small style="display:block;color:var(--ink-500);font-size:10px">5000件 ¥7.60</small></td><td>200 件</td><td>72h</td><td>2.1万</td><td>永康新锐工贸<br><span class="muted tiny">浙江金华</span></td><td><span class="badge-tag qual">源头工厂</span></td><td><button class="btn-add-inquiry" data-add-inquiry="p1d" data-title="真空保温杯 简约便携" data-price="9.80" data-moq="200件起批" data-glyph="i-package">询价</button></td></tr>
-            <tr><td><div class="ct-item"><div class="ct-thumb"><svg class="ico"><use href="#i-package"></use></svg></div><div class="ct-name">双层不锈钢保温壶 礼品套装</div></div></td><td class="ct-price">¥16.50<small style="display:block;color:var(--ink-500);font-size:10px">800件 ¥14.20</small></td><td>50 件</td><td>48h</td><td>1,760</td><td>金华恒远金属<br><span class="muted tiny">浙江金华</span></td><td><span class="badge-tag qual">源头工厂</span></td><td><button class="btn-add-inquiry" data-add-inquiry="p1e" data-title="双层不锈钢保温壶 礼盒装" data-price="16.50" data-moq="50件起批" data-glyph="i-package">询价</button></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="pagination"><a href="#">‹ 上一页</a><a href="#" class="cur">1</a><a href="#">2</a><a href="#">3</a><a href="#">4</a><a href="#">5</a><a href="#">下一页 ›</a></div>
-    </main>
-
-    <aside>
-      <div class="inquiry-dock">
-        <h4><svg class="ico ico-sm"><use href="#i-inquiry"></use></svg>询价篮 <span class="cnt" id="idock-count">0</span></h4>
-        <div class="idock-body" id="idock-body"></div>
-        <div class="idock-foot"><button class="btn-primary" onclick="location.href='04-workbench.html?tab=inquiry'">批量发起询盘</button><p class="tiny muted" style="margin:8px 0 0;text-align:center">跨页保留 · 可批量议价</p></div>
-      </div>
-      <div class="panel" style="margin-top:14px">
-        <div class="panel-head"><svg class="ico ico-sm" style="color:var(--blue-700)"><use href="#i-ruler"></use></svg><h4>比价提示</h4></div>
-        <div style="padding:14px 16px;font-size:12px;color:var(--ink-700);line-height:1.9">
-          <p style="margin:0 0 8px">已选商品中，<b style="color:var(--blue-700)">¥11.80</b> 为当前最低单价。</p>
-          <p style="margin:0 0 8px">「永康百川杯业」交期最短（24h）。</p>
-          <p style="margin:0">勾选 ≥2 件可横向对比完整参数。</p>
-        </div>
-      </div>
-    </aside>
-
-  </div>
-</div>
-
-<footer class="site-footer"><div class="wrap">
-  <div style="flex:2"><div class="f-brand">源集 YUANJI</div><p>专业 B2B 批发采购平台 · 参数透明 · 供给可比 · 交易可信</p></div>
-  <div><h5>采购者</h5><a href="#">找货指南</a><a href="#">询价技巧</a></div><div><h5>供应商</h5><a href="#">入驻申请</a><a href="#">资质认证</a></div><div><h5>关于</h5><a href="index.html">设计规范</a><a href="#">合规声明</a></div>
-</div><div class="footer-bottom wrap">© 2026 源集 YUANJI · 本设计为产品演示，数据均为模拟</div></footer>
-
-<div class="toast" id="toast"></div>
-<script src="assets/product-art.js"></script>
-<script>
-(function(){
-  var PATTERNS={up:[3,5,4,7,6,9,8,11,10,13],flat:[6,7,6,8,7,7,8,7,9,8]};
-  document.querySelectorAll('[data-spark]').forEach(function(el){
-    var seq=PATTERNS[el.getAttribute('data-spark')]||PATTERNS.flat;
-    el.innerHTML=seq.map(function(h,i){return '<i style="height:'+h+'px'+(i>=8?'" class="up':'"')+'></i>';}).join('');
-  });
-})();
-</script>
-<script src="assets/app.js"></script>
+  </main>
+  <footer class="site-footer wrap">源集 YUANJI <span>价格筛选按首档单价 · 数据仅供演示</span></footer>
 </body>
 </html>

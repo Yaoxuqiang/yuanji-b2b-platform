@@ -1,201 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>采购工作台 · 源集 YUANJI</title>
-<link rel="stylesheet" href="assets/tokens.css">
-<link rel="stylesheet" href="assets/app.css">
-<style>
-  .wb-head { background:var(--surface); border:1px solid var(--line); padding:20px 24px; margin:20px 0; display:flex; align-items:center; gap:18px; }
-  .wb-head .avatar { width:52px; height:52px; background:var(--blue-800); color:#fff; display:grid; place-items:center; }
-  .wb-head h2 { margin:0; font-size:19px; } .wb-head p { margin:4px 0 0; font-size:12px; color:var(--ink-500); }
-  .wb-head .wb-quick { margin-left:auto; display:flex; gap:10px; }
-  .wb-layout { display:grid; grid-template-columns:214px 1fr; gap:14px; align-items:start; }
-  .wb-side { background:var(--surface); border:1px solid var(--line); }
-  .wb-side .sitem { display:flex; align-items:center; gap:11px; padding:12px 14px; font-size:13px; color:var(--ink-700); cursor:pointer; border-bottom:1px solid var(--line); }
-  .wb-side .sitem:last-child{border-bottom:none;}
-  .wb-side .sitem .ico{color:var(--ink-500);} .wb-side .sitem .n{margin-left:auto;font-family:var(--font-num);font-size:11px;color:var(--ink-400);}
-  .wb-side .sitem.active { background:var(--blue-700); color:#fff; font-weight:600; }
-  .wb-side .sitem.active .ico,.wb-side .sitem.active .n{color:#fff;}
-  .wb-panel { background:var(--surface); border:1px solid var(--line); min-height:560px; padding:20px 22px; }
-  .wb-panel-head { display:flex; align-items:center; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--line-blue); }
-  .wb-panel-head h3 { margin:0; font-size:16px; } .wb-panel-head .tools { margin-left:auto; display:flex; gap:8px; }
-  .supplier-group { border:1px solid var(--line); margin-bottom:14px; }
-  .sg-head { background:var(--surface-alt); padding:10px 14px; display:flex; align-items:center; gap:10px; font-size:13px; border-bottom:1px solid var(--line); }
-  .sg-head .check{accent-color:var(--blue-700);} .sg-head b{font-weight:700;} .sg-head .loc{color:var(--ink-400);font-size:11px;}
-  .sg-head .subtotal{margin-left:auto;color:var(--ink-500);font-size:12px;} .sg-head .subtotal b{color:var(--price);font-family:var(--font-num);font-size:15px;}
-  .cart-item { display:flex; align-items:center; gap:12px; padding:12px 14px; border-bottom:1px solid var(--line); font-size:13px; }
-  .cart-item:last-child{border-bottom:none;}
-  .cart-item .check{accent-color:var(--blue-700);}
-  .cart-item .thumb{width:50px;height:50px;background:var(--surface-alt);border:1px solid var(--line);display:grid;place-items:center;color:var(--blue-300);}
-  .cart-item .ci{flex:1;min-width:0;} .cart-item .ci .nm{font-weight:600;margin-bottom:4px;} .cart-item .ci .spec{font-size:11px;color:var(--ink-500);}
-  .cart-item .unit{color:var(--price);font-family:var(--font-num);font-weight:700;}
-  .cart-item .qty{display:flex;align-items:center;height:30px;border:1px solid var(--line);} .cart-item .qty button{width:26px;height:100%;border:none;background:var(--surface-alt);display:grid;place-items:center;color:var(--blue-700);} .cart-item .qty input{width:44px;height:100%;border:none;text-align:center;outline:none;font-family:var(--font-num);font-size:12px;}
-  .cart-item .amt{width:80px;text-align:right;font-family:var(--font-num);font-weight:700;} .cart-item .del{color:var(--ink-400);cursor:pointer;}
-  .batch-bar { position:sticky; bottom:0; background:var(--surface); border:1px solid var(--line-blue); padding:12px 16px; display:flex; align-items:center; gap:14px; margin-top:16px; }
-  .batch-bar .sel{font-size:13px;color:var(--ink-700);} .batch-bar .right{margin-left:auto;display:flex;align-items:center;gap:14px;} .batch-bar .total{font-size:13px;color:var(--ink-500);} .batch-bar .total b{color:var(--price);font-family:var(--font-num);font-size:20px;}
-  .inquiry-card { border:1px solid var(--line); padding:16px; margin-bottom:12px; }
-  .inquiry-card .ic-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;} .inquiry-card .ic-head .st{padding:2px 9px;font-size:11px;}
-  .st-wait{background:var(--blue-050);color:var(--blue-800);border:1px solid var(--line-blue);} .st-reply{background:var(--blue-700);color:#fff;} .st-close{background:var(--surface-alt);color:var(--ink-500);}
-  .inquiry-card .ic-head .time{margin-left:auto;font-size:11px;color:var(--ink-400);} .inquiry-card .lines{font-size:12px;color:var(--ink-700);line-height:1.9;}
-  .timeline{margin-top:10px;padding-left:14px;border-left:2px solid var(--line-blue);font-size:11px;color:var(--ink-500);} .timeline div{padding:3px 0;}
-  .order-tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;} .order-tab{padding:7px 14px;border:1px solid var(--line);font-size:12px;color:var(--ink-700);background:#fff;} .order-tab.active{background:var(--blue-700);color:#fff;border-color:var(--blue-700);}
-  .order-row{display:flex;align-items:center;gap:14px;padding:14px;border:1px solid var(--line);margin-bottom:10px;font-size:12px;}
-  .order-row .ono{color:var(--ink-500);font-family:var(--font-num);} .order-row .ostatus{margin-left:auto;padding:3px 10px;background:var(--blue-050);color:var(--blue-800);border:1px solid var(--line-blue);font-size:11px;}
-  .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;} .kpi{background:var(--surface-alt);border-left:3px solid var(--blue-700);padding:16px;}
-  .kpi .k{font-size:12px;color:var(--ink-500);} .kpi .v{font-family:var(--font-num);font-size:24px;font-weight:700;color:var(--blue-800);margin-top:6px;} .kpi .d{font-size:11px;color:var(--ink-400);margin-top:4px;}
-  .bar-chart{display:flex;align-items:flex-end;gap:16px;height:180px;padding:10px 0 0;border-bottom:1px solid var(--line);}
-  .bar-chart .bar{flex:1;background:var(--blue-300);position:relative;min-height:10px;} .bar-chart .bar.alt{background:var(--blue-700);} .bar-chart .bar span{position:absolute;top:-20px;left:0;right:0;text-align:center;font-size:11px;font-family:var(--font-num);color:var(--ink-700);}
-  .bar-labels{display:flex;gap:16px;padding-top:8px;} .bar-labels span{flex:1;text-align:center;font-size:11px;color:var(--ink-500);}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>源集 · 采购工作台</title>
+  <link rel="stylesheet" href="assets/tokens.css">
+  <link rel="stylesheet" href="assets/app.css">
+  <script defer src="assets/icons.js"></script>
+  <script defer src="assets/app.js"></script>
+  <script defer src="assets/pages.js"></script>
 </head>
-<body>
-<script src="assets/icons.js"></script>
-
-<div class="topbar"><div class="wrap">
-  <div class="tb-left">专业批发采购平台 · 参数透明，供给可比</div>
-  <div class="tb-right"><a href="#">采购指南</a><a href="04-workbench.html">我的工作台</a><a href="#">帮助中心</a><a href="#" style="color:#fff">登录 / 注册</a></div>
-</div></div>
-
-<header class="site-header"><div class="wrap header-main">
-  <a href="01-home.html" class="logo"><span class="logo-mark">源</span><span class="logo-text">源集<small>YUANJI</small></span></a>
-  <div class="search-box"><input type="text" placeholder="搜索商品、货号或产业带"><button class="btn-search"><svg class="ico"><use href="#i-search"></use></svg>搜索</button></div>
-  <div class="img-search"><svg class="ico"><use href="#i-image"></use></svg>图片找货</div>
-  <div class="header-actions">
-    <a href="04-workbench.html" class="ha-item"><svg class="ico ha-ico"><use href="#i-inquiry"></use></svg>询价篮<span class="badge hidden" id="badge-inquiry">0</span></a>
-    <a href="04-workbench.html" class="ha-item"><svg class="ico ha-ico"><use href="#i-cart"></use></svg>采购车<span class="badge hidden" id="badge-cart">0</span></a>
-  </div>
-</div>
-<nav class="nav-bar"><div class="wrap">
-  <div class="nav-cat-all"><svg class="ico"><use href="#i-menu"></use></svg>全部商品分类</div>
-  <div class="nav-links"><a href="01-home.html">首页</a><a href="02-listing.html">源头工厂</a><a href="02-listing.html">一件代发</a><a href="02-listing.html">定制加工</a><a href="02-listing.html">进口好货</a></div>
-  <div class="nav-extra"><span>今日询价 <b class="num">2,481</b></span></div>
-</div></nav></header>
-
-<div class="wrap">
-  <div class="wb-head">
-    <div class="avatar"><svg class="ico ico-lg"><use href="#i-user"></use></svg></div>
-    <div><h2>采购工作台</h2><p>张采买 · 批发买手 · 杭州 · 本月已采购 ¥28,460</p></div>
-    <div class="wb-quick"><a href="02-listing.html" class="btn-ghost"><svg class="ico ico-sm"><use href="#i-search"></use></svg>继续找货</a><button class="btn-primary" data-goto="inquiry"><svg class="ico ico-sm"><use href="#i-inquiry"></use></svg>批量发起询盘</button></div>
-  </div>
-
-  <div class="wb-layout">
-    <aside class="wb-side">
-      <div class="sitem active" data-tab="cart"><svg class="ico"><use href="#i-cart"></use></svg>采购车<span class="n" id="side-cart-n">0</span></div>
-      <div class="sitem" data-tab="inquiry"><svg class="ico"><use href="#i-inquiry"></use></svg>询盘管理<span class="n">4</span></div>
-      <div class="sitem" data-tab="order"><svg class="ico"><use href="#i-package"></use></svg>订单履约<span class="n">5</span></div>
-      <div class="sitem" data-tab="fav"><svg class="ico"><use href="#i-star"></use></svg>收藏与供应商<span class="n">12</span></div>
-      <div class="sitem" data-tab="data"><svg class="ico"><use href="#i-chart"></use></svg>采购数据小结</div>
-    </aside>
-
-    <main class="wb-panel">
-
-      <section id="pane-cart">
-        <div class="wb-panel-head"><h3>采购车</h3><div class="tools"><button class="btn-ghost" id="btn-move-inquiry"><svg class="ico ico-sm"><use href="#i-inquiry"></use></svg>移入询价篮</button><button class="btn-ghost" id="btn-del">删除选中</button></div></div>
-
-        <div class="supplier-group"><div class="sg-head"><input type="checkbox" class="check grp-check"><b>永康市金盾工贸有限公司</b><span class="loc">浙江金华 · 48h发货</span><span class="subtotal">小计 <b>¥6,720</b></span></div>
-          <div class="cart-item"><input type="checkbox" class="check item-check" data-amt="5600"><div class="thumb"><svg class="ico"><use href="#i-package"></use></svg></div><div class="ci"><div class="nm">304不锈钢保温杯 定制logo</div><div class="spec">银色 · 500ml · 货号 A-203</div></div><span class="unit">¥11.20</span><div class="qty"><button><svg class="ico ico-sm"><use href="#i-minus"></use></svg></button><input value="500"><button><svg class="ico ico-sm"><use href="#i-plus"></use></svg></button></div><span class="amt">¥5,600</span><svg class="ico ico-sm del"><use href="#i-close"></use></svg></div>
-          <div class="cart-item"><input type="checkbox" class="check item-check" data-amt="1120"><div class="thumb"><svg class="ico"><use href="#i-package"></use></svg></div><div class="ci"><div class="nm">316不锈钢保温杯 智能显温</div><div class="spec">磨砂黑 · 450ml · 货号 A-320</div></div><span class="unit">¥14.00</span><div class="qty"><button><svg class="ico ico-sm"><use href="#i-minus"></use></svg></button><input value="80"><button><svg class="ico ico-sm"><use href="#i-plus"></use></svg></button></div><span class="amt">¥1,120</span><svg class="ico ico-sm del"><use href="#i-close"></use></svg></div>
-        </div>
-
-        <div class="supplier-group"><div class="sg-head"><input type="checkbox" class="check grp-check"><b>义乌市合川日用品厂</b><span class="loc">浙江金华 · 24h发货</span><span class="subtotal">小计 <b>¥1,680</b></span></div>
-          <div class="cart-item"><input type="checkbox" class="check item-check" data-amt="1680"><div class="thumb"><svg class="ico"><use href="#i-package"></use></svg></div><div class="ci"><div class="nm">可降解快递袋 环保PLA材质</div><div class="spec">中号 · 货号 B-0917</div></div><span class="unit">¥0.28</span><div class="qty"><button><svg class="ico ico-sm"><use href="#i-minus"></use></svg></button><input value="6000"><button><svg class="ico ico-sm"><use href="#i-plus"></use></svg></button></div><span class="amt">¥1,680</span><svg class="ico ico-sm del"><use href="#i-close"></use></svg></div>
-        </div>
-
-        <div class="supplier-group"><div class="sg-head"><input type="checkbox" class="check grp-check"><b>深圳宝安声学科技有限公司</b><span class="loc">广东深圳 · 48h发货</span><span class="subtotal">小计 <b>¥1,410</b></span></div>
-          <div class="cart-item"><input type="checkbox" class="check item-check" data-amt="940"><div class="thumb"><svg class="ico"><use href="#i-cog"></use></svg></div><div class="ci"><div class="nm">TWS蓝牙耳机 主动降噪</div><div class="spec">黑色 · 支持ODM · 货号 C-556</div></div><span class="unit">¥23.50</span><div class="qty"><button><svg class="ico ico-sm"><use href="#i-minus"></use></svg></button><input value="40"><button><svg class="ico ico-sm"><use href="#i-plus"></use></svg></button></div><span class="amt">¥940</span><svg class="ico ico-sm del"><use href="#i-close"></use></svg></div>
-          <div class="cart-item"><input type="checkbox" class="check item-check" data-amt="470"><div class="thumb"><svg class="ico"><use href="#i-cog"></use></svg></div><div class="ci"><div class="nm">耳机充电仓 保护套</div><div class="spec">透明 · 货号 C-561</div></div><span class="unit">¥4.70</span><div class="qty"><button><svg class="ico ico-sm"><use href="#i-minus"></use></svg></button><input value="100"><button><svg class="ico ico-sm"><use href="#i-plus"></use></svg></button></div><span class="amt">¥470</span><svg class="ico ico-sm del"><use href="#i-close"></use></svg></div>
-        </div>
-
-        <div class="batch-bar"><span class="sel">已选 <b id="sel-count">0</b> 件商品</span><span class="muted tiny">按供应商分组结算 · 支持批量改规格与数量</span><div class="right"><span class="total">合计 <b id="sel-total">¥0</b></span><button class="btn-primary" id="btn-checkout">生成订单</button></div></div>
-      </section>
-
-      <section id="pane-inquiry" class="hidden">
-        <div class="wb-panel-head"><h3>询盘管理</h3><div class="tools"><button class="btn-ghost" id="btn-fill-inquiry"><svg class="ico ico-sm"><use href="#i-plus"></use></svg>从询价篮载入</button></div></div>
-        <div class="inquiry-card"><div class="ic-head"><b>询盘 #INQ-20261118-0032</b><span class="st st-reply">已回复</span><span class="time">2026-11-18 10:24</span></div><div class="lines">304不锈钢保温杯 定制logo × 500件 · 询问：含税价、交期、刻字起订量</div><div class="timeline"><div>· 10:24 我发起询盘</div><div>· 11:02 供应商回复：含税 ¥11.20，7天交货，刻字 500 件起订</div></div></div>
-        <div class="inquiry-card"><div class="ic-head"><b>询盘 #INQ-20261118-0031</b><span class="st st-wait">待回复</span><span class="time">2026-11-18 09:15</span></div><div class="lines">可降解快递袋 环保PLA材质 × 6000个 · 询问：批发价、是否支持印LOGO</div><div class="timeline"><div>· 09:15 我发起询盘，等待供应商回复（已超时 3 小时可催单）</div></div></div>
-        <div class="inquiry-card"><div class="ic-head"><b>询盘 #INQ-20261117-0029</b><span class="st st-wait">待回复</span><span class="time">2026-11-17 16:40</span></div><div class="lines">316不锈钢保温杯 智能显温 × 80件 · 询问：样品费、交期</div><div class="timeline"><div>· 16:40 我发起询盘，等待供应商回复</div></div></div>
-        <div class="inquiry-card"><div class="ic-head"><b>询盘 #INQ-20261117-0028</b><span class="st st-close">已关闭</span><span class="time">2026-11-17 15:40</span></div><div class="lines">TWS蓝牙耳机 主动降噪 × 40件 · 询问：ODM 定制流程、打样周期</div><div class="timeline"><div>· 15:40 我发起询盘</div><div>· 16:20 供应商回复</div><div>· 次日 我关闭询盘</div></div></div>
-      </section>
-
-      <section id="pane-order" class="hidden">
-        <div class="wb-panel-head"><h3>订单履约</h3></div>
-        <div class="order-tabs"><span class="order-tab active">全部 5</span><span class="order-tab">待确认 1</span><span class="order-tab">待发货 2</span><span class="order-tab">已发货 1</span><span class="order-tab">已签收 1</span></div>
-        <div class="order-row"><span class="ono">SO-20261118-0871</span><span>永康市金盾工贸 · 保温杯 × 500</span><span class="price-color num">¥5,600</span><span class="ostatus">待确认</span></div>
-        <div class="order-row"><span class="ono">SO-20261117-0854</span><span>义乌市合川日用品厂 · 快递袋 × 6000</span><span class="price-color num">¥1,680</span><span class="ostatus">待发货</span></div>
-        <div class="order-row"><span class="ono">SO-20261117-0849</span><span>东莞长安精密塑胶厂 · 展示架 × 30</span><span class="price-color num">¥258</span><span class="ostatus">待发货</span></div>
-        <div class="order-row"><span class="ono">SO-20261116-0832</span><span>深圳宝安声学科技 · 蓝牙耳机 × 40</span><span class="price-color num">¥940</span><span class="ostatus">已发货</span></div>
-        <div class="order-row"><span class="ono">SO-20261114-0798</span><span>广州白云美辰包材 · 分装瓶 × 2000</span><span class="price-color num">¥2,200</span><span class="ostatus">已签收</span></div>
-      </section>
-
-      <section id="pane-fav" class="hidden">
-        <div class="wb-panel-head"><h3>收藏与常用供应商</h3></div>
-        <div class="supplier-group"><div class="sg-head"><b>常用供应商</b><span class="loc">按采购频次排序</span></div>
-          <div class="cart-item"><div class="thumb" style="background:var(--blue-800);color:#fff;font-size:12px">金盾</div><div class="ci"><div class="nm">永康市金盾工贸有限公司</div><div class="spec">源头工厂 · 浙江金华 · 近90天采购 6 次</div></div><span class="unit">96% 回头率</span><a href="02-listing.html" class="btn-ghost" style="padding:6px 12px">看货</a></div>
-          <div class="cart-item"><div class="thumb" style="background:var(--blue-600);color:#fff;font-size:12px">合川</div><div class="ci"><div class="nm">义乌市合川日用品厂</div><div class="spec">源头工厂 · 浙江金华 · 近90天采购 4 次</div></div><span class="unit">88% 回头率</span><a href="02-listing.html" class="btn-ghost" style="padding:6px 12px">看货</a></div>
-          <div class="cart-item"><div class="thumb" style="background:var(--blue-900);color:#fff;font-size:12px">声学</div><div class="ci"><div class="nm">深圳宝安声学科技有限公司</div><div class="spec">源头工厂 · 广东深圳 · 近90天采购 3 次</div></div><span class="unit">91% 回头率</span><a href="02-listing.html" class="btn-ghost" style="padding:6px 12px">看货</a></div>
-        </div>
-        <h4 style="font-size:14px;margin:20px 0 10px">收藏商品</h4>
-        <div class="product-grid" style="grid-template-columns:repeat(3,1fr)">
-          <div class="product-card"><div class="pc-img"><div data-art="display"></div></div><div class="pc-body"><div class="decision-band"><div class="price-line"><span class="price-main"><span class="cur">¥</span>8.60</span><span class="price-step">≥500 <b>¥7.20</b></span></div><div class="ruler"><span class="seg s1"></span><span class="seg s2"></span><span class="seg s3"></span></div><div class="ruler-labels"><span>30件 ¥8.60</span><span>200件 ¥7.90</span><span>500件 ¥7.20</span></div><div class="decision-meta"><span class="moq"><b>30</b> 件起批</span><span class="tag-lead">72h发货</span></div></div><div class="pc-title">亚克力展示架 透明陈列架</div><div class="pc-supplier">东莞长安精密塑胶厂</div></div></div>
-        </div>
-      </section>
-
-      <section id="pane-data" class="hidden">
-        <div class="wb-panel-head"><h3>采购数据小结</h3><span class="muted tiny" style="margin-left:auto">统计周期：2026年11月</span></div>
-        <div class="kpi-grid">
-          <div class="kpi"><div class="k">本月采购额</div><div class="v">¥28,460</div><div class="d">环比 +12.3%</div></div>
-          <div class="kpi"><div class="k">询价节支</div><div class="v">¥3,240</div><div class="d">议价节省估算</div></div>
-          <div class="kpi"><div class="k">完成订单</div><div class="v">12</div><div class="d">按时履约率 98%</div></div>
-          <div class="kpi"><div class="k">合作供应商</div><div class="v">7</div><div class="d">源头工厂占比 71%</div></div>
-        </div>
-        <h4 style="font-size:14px;margin:8px 0 16px">近 6 个月采购额趋势（元）</h4>
-        <div class="bar-chart">
-          <div class="bar" style="height:45%"><span>18,200</span></div><div class="bar" style="height:58%"><span>21,500</span></div>
-          <div class="bar" style="height:52%"><span>19,800</span></div><div class="bar" style="height:70%"><span>25,300</span></div>
-          <div class="bar" style="height:63%"><span>23,100</span></div><div class="bar alt" style="height:82%"><span>28,460</span></div>
-        </div>
-        <div class="bar-labels"><span>6月</span><span>7月</span><span>8月</span><span>9月</span><span>10月</span><span>11月</span></div>
-        <p class="tiny muted" style="margin-top:16px">口径说明：采购额含已确认订单金额；节支为询价议价前后差额估算；数据为演示模拟。</p>
-      </section>
-
-    </main>
-  </div>
-</div>
-
-<footer class="site-footer"><div class="wrap">
-  <div style="flex:2"><div class="f-brand">源集 YUANJI</div><p>专业 B2B 批发采购平台 · 参数透明 · 供给可比 · 交易可信</p></div>
-  <div><h5>采购者</h5><a href="#">找货指南</a><a href="#">询价技巧</a></div><div><h5>供应商</h5><a href="#">入驻申请</a><a href="#">资质认证</a></div><div><h5>关于</h5><a href="index.html">设计规范</a><a href="#">合规声明</a></div>
-</div><div class="footer-bottom wrap">© 2026 源集 YUANJI · 本设计为产品演示，数据均为模拟</div></footer>
-
-<div class="toast" id="toast"></div>
-<script src="assets/product-art.js"></script>
-<script src="assets/app.js"></script>
-<script>
-(function(){
-  function show(tab){
-    document.querySelectorAll('.wb-side .sitem').forEach(function(s){s.classList.toggle('active',s.getAttribute('data-tab')===tab);});
-    ['cart','inquiry','order','fav','data'].forEach(function(t){var p=document.getElementById('pane-'+t);if(p)p.classList.toggle('hidden',t!==tab);});
-  }
-  document.querySelectorAll('.wb-side .sitem').forEach(function(s){s.addEventListener('click',function(){show(s.getAttribute('data-tab'));});});
-  var params=new URLSearchParams(location.search),tab=params.get('tab'); if(tab)show(tab);
-  document.querySelectorAll('[data-goto]').forEach(function(b){b.addEventListener('click',function(){show(b.getAttribute('data-goto'));});});
-  function recalc(){var c=document.querySelectorAll('.item-check:checked'),sum=0;c.forEach(function(x){sum+=parseFloat(x.getAttribute('data-amt'))||0;});document.getElementById('sel-count').textContent=c.length;document.getElementById('sel-total').textContent='¥'+sum.toLocaleString('zh-CN');}
-  document.querySelectorAll('.item-check').forEach(function(c){c.addEventListener('change',recalc);});
-  document.querySelectorAll('.grp-check').forEach(function(g){g.addEventListener('change',function(){g.closest('.supplier-group').querySelectorAll('.item-check').forEach(function(c){c.checked=g.checked;});recalc();});});
-  document.getElementById('btn-del').addEventListener('click',function(){var c=document.querySelectorAll('.item-check:checked');if(!c.length){window.YJ.toast('请先勾选商品');return;}c.forEach(function(x){x.closest('.cart-item').remove();});recalc();window.YJ.toast('已删除选中商品');});
-  document.getElementById('btn-move-inquiry').addEventListener('click',function(){var c=document.querySelectorAll('.item-check:checked');if(!c.length){window.YJ.toast('请先勾选商品');return;}c.forEach(function(x){window.YJ.addInquiry({id:'mv-'+Math.random().toString(36).slice(2,6),title:x.closest('.cart-item').querySelector('.nm').textContent,price:'—',moq:'—',glyph:'i-package'});});});
-  document.getElementById('btn-checkout').addEventListener('click',function(){var n=document.querySelectorAll('.item-check:checked').length;if(!n){window.YJ.toast('请先勾选商品');return;}window.YJ.toast('已生成 '+n+' 条订单（演示）');});
-  document.getElementById('btn-fill-inquiry').addEventListener('click',function(){
-    var list=window.YJ.read('yj_inquiry');if(!list.length){window.YJ.toast('询价篮为空，请先在商品页加入');return;}
-    var card=document.createElement('div');card.className='inquiry-card';
-    card.innerHTML='<div class="ic-head"><b>询盘 #INQ-'+Date.now().toString().slice(-6)+'</b><span class="st st-wait">待回复</span><span class="time">刚刚</span></div><div class="lines">'+list.map(function(x){return x.title+' × 询价';}).join('　·　')+'</div><div class="timeline"><div>· 刚刚 我发起批量询盘，等待供应商回复</div></div>';
-    document.getElementById('pane-inquiry').insertBefore(card,document.getElementById('pane-inquiry').children[1]);
-    window.YJ.clearInquiry(list.map(function(x){return x.id;}));window.YJ.toast('已提交批量询盘');
-  });
-  var cart=window.YJ.read('yj_cart');document.getElementById('side-cart-n').textContent=cart.reduce(function(s,x){return s+(x.qty||1);},0);
-})();
-</script>
+<body data-page="workbench">
+  <header class="site-header" id="site-header"></header>
+  <main class="wrap page">
+    <nav class="crumb" aria-label="当前位置"><a href="01-home.html">首页</a><span>/</span><span>采购工作台</span></nav>
+    <div class="title-line"><h1>采购工作台</h1><span class="tag">演示数据</span></div>
+    <nav class="work-tabs" aria-label="工作台功能">
+      <a href="04-workbench.html?tab=cart" data-tab="cart"><svg class="ico" aria-hidden="true"><use href="#i-cart"/></svg>采购车 <span class="badge" data-count="cart">0</span></a>
+      <a href="04-workbench.html?tab=inquiry" data-tab="inquiry"><svg class="ico" aria-hidden="true"><use href="#i-inquiry"/></svg>询盘</a>
+      <a href="04-workbench.html?tab=order" data-tab="order"><svg class="ico" aria-hidden="true"><use href="#i-file"/></svg>订单</a>
+      <a href="04-workbench.html?tab=fav" data-tab="fav"><svg class="ico" aria-hidden="true"><use href="#i-user"/></svg>收藏与供应商</a>
+      <a href="04-workbench.html?tab=data" data-tab="data"><svg class="ico" aria-hidden="true"><use href="#i-chart"/></svg>数据小结</a>
+    </nav>
+    <section data-pane="cart" class="work-layout" aria-label="采购车" hidden>
+      <div>
+        <section class="panel cart-panel" aria-label="采购车商品">
+          <div class="cart-tools"><label class="choice"><input id="cart-all" type="checkbox">全选</label><button type="button" class="link" data-batch="spec">改规格</button><button type="button" class="link" data-batch="qty">改数量</button><button type="button" class="link" data-batch="move">移入询价篮</button><button type="button" class="link" data-batch="delete">删除</button></div>
+          <div id="cart-lines"></div>
+        </section>
+        <section class="panel month-panel" aria-labelledby="month-title"><div class="section-head"><h2 id="month-title">本月小结</h2><small class="muted">统计周期：本月</small></div><div data-summary></div></section>
+      </div>
+      <aside class="work-side">
+        <section class="panel work-summary" aria-labelledby="summary-title"><h2 id="summary-title">采购摘要</h2><div id="cart-total" aria-live="polite"></div><button id="cart-inquiry" type="button" class="button primary full">批量询价</button><p class="small muted center">预估金额不含运费</p></section>
+        <section class="panel follow-up" aria-labelledby="follow-title"><h2 id="follow-title">待跟进</h2><div id="follow-items"></div></section>
+      </aside>
+    </section>
+    <section data-pane="inquiry" class="secondary-panel" aria-label="询盘" hidden>
+      <section class="panel work-summary"><div class="section-head"><h2>待发询价篮</h2><a class="link" href="02-listing.html">继续找货</a></div><div id="work-basket"></div></section>
+      <section class="panel work-summary"><h2>询盘记录</h2><div id="inquiry-records"></div></section>
+    </section>
+    <section data-pane="order" class="panel work-summary" aria-label="订单" hidden><div class="section-head"><h2>履约订单</h2><label>状态 <select id="order-filter"></select></label></div><div id="order-list"></div></section>
+    <section data-pane="fav" class="panel work-summary" aria-label="收藏与供应商" hidden><h2>常用供应商</h2><div id="favorite-suppliers"></div><h2 class="sub-heading">收藏商品</h2><div class="product-grid" id="favorite-products"></div></section>
+    <section data-pane="data" class="panel work-summary" aria-label="数据小结" hidden><div class="section-head"><h2>采购数据小结</h2><small class="muted">统计周期：本月 · 模拟数据</small></div><div data-summary></div><div id="purchase-chart"></div></section>
+  </main>
+  <footer class="site-footer wrap">源集 YUANJI <span>采购、询盘和履约均为本地演示</span></footer>
 </body>
 </html>

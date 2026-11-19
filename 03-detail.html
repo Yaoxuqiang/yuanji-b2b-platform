@@ -1,250 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>商品详情 · 源集 YUANJI</title>
-<link rel="stylesheet" href="assets/tokens.css">
-<link rel="stylesheet" href="assets/app.css">
-<style>
-  .detail-layout { display:grid; grid-template-columns:440px 1fr 252px; gap:20px; align-items:start; }
-  .gallery-main { width:100%; aspect-ratio:1/1; background:var(--surface-alt); border:1px solid var(--line); display:grid; place-items:center; color:var(--blue-300); }
-  .gallery-main use { fill:none; stroke:var(--blue-300); stroke-width:1; }
-  .gallery-main svg { width:140px; height:140px; fill:none; stroke:currentColor; stroke-width:1; stroke-linecap:square; stroke-linejoin:miter; }
-  .gallery-thumbs { display:flex; gap:8px; margin-top:10px; }
-  .gallery-thumbs .t { width:62px; height:62px; border:1px solid var(--line); display:grid; place-items:center; color:var(--blue-300); cursor:pointer; background:var(--surface); padding:5px; }
-  .gallery-thumbs .t.active { border-color:var(--blue-700); border-width:2px; }
-  .gallery-thumbs .t [data-art] { color:var(--blue-500); }
-  .gallery-main [data-art] { width:76%; height:76%; color:var(--blue-700); }
-  .gallery-main [data-art] svg { width:100%; height:100%; }
-  .d-title { font-size:19px; font-weight:700; line-height:1.5; margin:0 0 8px; }
-  .d-sub { font-size:12px; color:var(--ink-500); margin-bottom:16px; display:flex; gap:14px; flex-wrap:wrap; }
-  .d-sub b { color:var(--blue-700); font-family:var(--font-num); }
-  .price-panel { border:1px solid var(--line-blue); background:var(--surface); padding:16px 18px; margin-bottom:16px; }
-  .price-panel .big { font-size:32px; color:var(--price); font-weight:700; font-family:var(--font-num); }
-  .price-panel .big .cur { font-size:16px; }
-  /* 大图价格梯度条 */
-  .ruler-lg { display:flex; height:14px; margin:14px 0 5px; gap:3px; }
-  .ruler-lg .seg { flex:1; position:relative; }
-  .ruler-lg .seg.s1{background:var(--blue-100)} .ruler-lg .seg.s2{background:var(--blue-300)} .ruler-lg .seg.s3{background:var(--blue-700)}
-  .ruler-lg-labels { display:flex; justify-content:space-between; font-size:10px; color:var(--ink-500); }
-  .ruler-lg-labels span b { color:var(--price); }
-  .step-table { width:100%; border-collapse:collapse; margin-top:14px; font-size:12px; }
-  .step-table th,.step-table td { padding:8px 10px; text-align:center; border:1px solid var(--line); }
-  .step-table th { background:var(--surface-alt); color:var(--ink-500); font-weight:600; }
-  .step-table .hit { background:var(--blue-100); color:var(--price-strong); font-weight:700; }
-  .sku-row { display:flex; align-items:center; gap:10px; margin-bottom:12px; font-size:13px; }
-  .sku-row .label { width:58px; color:var(--ink-500); flex-shrink:0; }
-  .sku-opt { padding:6px 13px; border:1px solid var(--line); background:var(--surface); font-size:12px; }
-  .sku-opt.active { border-color:var(--blue-700); color:var(--blue-700); background:var(--blue-050); font-weight:600; }
-  .sku-opt.disabled { color:var(--ink-300); background:var(--surface-alt); cursor:not-allowed; text-decoration:line-through; }
-  .qty-input { display:flex; align-items:center; height:36px; border:1px solid var(--line); width:156px; }
-  .qty-input button { width:34px; height:100%; border:none; background:var(--surface-alt); color:var(--blue-700); display:grid; place-items:center; }
-  .qty-input input { width:86px; height:100%; border:none; text-align:center; outline:none; font-family:var(--font-num); }
-  .estimate { font-size:13px; color:var(--ink-700); margin-left:14px; }
-  .estimate b { color:var(--price); font-family:var(--font-num); font-size:19px; }
-  .action-row { display:flex; gap:10px; margin-top:18px; }
-  .action-row>*{flex:1;height:44px;font-size:14px;}
-  .trust-card { background:var(--surface); border:1px solid var(--line); padding:16px; margin-bottom:14px; }
-  .trust-card h4 { margin:0 0 12px; font-size:14px; display:flex; align-items:center; gap:7px; }
-  .trust-card h4::before { content:""; width:3px; height:14px; background:var(--blue-700); }
-  .supplier-row { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
-  .supplier-logo { width:50px; height:50px; background:var(--blue-800); color:#fff; display:grid; place-items:center; font-size:15px; font-weight:700; }
-  .supplier-meta b { font-size:13px; } .supplier-meta div { font-size:11px; color:var(--ink-500); margin-top:3px; }
-  .stat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; }
-  .stat { background:var(--surface-alt); padding:9px; text-align:center; }
-  .stat .v { font-family:var(--font-num); font-size:16px; font-weight:700; color:var(--blue-800); }
-  .stat .k { font-size:10px; color:var(--ink-500); margin-top:2px; }
-  .cert-list { display:flex; flex-wrap:wrap; gap:5px; margin-top:10px; }
-  .service-list { font-size:12px; color:var(--ink-700); }
-  .service-list div { padding:6px 0; border-bottom:1px dashed var(--line); display:flex; gap:8px; align-items:center; }
-  .service-list div:last-child{border:none;} .service-list .ico{color:var(--blue-700);}
-  .tabs { display:flex; gap:28px; border-bottom:1px solid var(--line); margin:24px 0 16px; }
-  .tabs .tab { padding:10px 0; font-size:14px; color:var(--ink-500); }
-  .tabs .tab.active { color:var(--blue-700); font-weight:700; border-bottom:2px solid var(--blue-700); }
-  .spec-table { width:100%; border-collapse:collapse; font-size:12px; }
-  .spec-table td { padding:10px 14px; border:1px solid var(--line); }
-  .spec-table td:nth-child(odd){background:var(--surface-alt);color:var(--ink-500);width:110px;}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>源集 · 商品详情</title>
+  <link rel="stylesheet" href="assets/tokens.css">
+  <link rel="stylesheet" href="assets/app.css">
+  <script defer src="assets/icons.js"></script>
+  <script defer src="assets/app.js"></script>
+  <script defer src="assets/pages.js"></script>
 </head>
-<body>
-<script src="assets/icons.js"></script>
-
-<div class="topbar"><div class="wrap">
-  <div class="tb-left">专业批发采购平台 · 参数透明，供给可比</div>
-  <div class="tb-right"><a href="#">采购指南</a><a href="04-workbench.html">我的工作台</a><a href="#">帮助中心</a><a href="#" style="color:#fff">登录 / 注册</a></div>
-</div></div>
-
-<header class="site-header"><div class="wrap header-main">
-  <a href="01-home.html" class="logo"><span class="logo-mark">源</span><span class="logo-text">源集<small>YUANJI</small></span></a>
-  <div class="search-box"><input type="text" placeholder="搜索商品、货号或产业带"><button class="btn-search"><svg class="ico"><use href="#i-search"></use></svg>搜索</button></div>
-  <div class="img-search"><svg class="ico"><use href="#i-image"></use></svg>图片找货</div>
-  <div class="header-actions">
-    <a href="04-workbench.html" class="ha-item"><svg class="ico ha-ico"><use href="#i-inquiry"></use></svg>询价篮<span class="badge hidden" id="badge-inquiry">0</span></a>
-    <a href="04-workbench.html" class="ha-item"><svg class="ico ha-ico"><use href="#i-cart"></use></svg>采购车<span class="badge hidden" id="badge-cart">0</span></a>
-  </div>
-</div>
-<nav class="nav-bar"><div class="wrap">
-  <div class="nav-cat-all"><svg class="ico"><use href="#i-menu"></use></svg>全部商品分类</div>
-  <div class="nav-links"><a href="01-home.html">首页</a><a href="02-listing.html">源头工厂</a><a href="02-listing.html">一件代发</a><a href="02-listing.html">定制加工</a><a href="02-listing.html">进口好货</a></div>
-  <div class="nav-extra"><span>今日询价 <b class="num">2,481</b></span></div>
-</div></nav></header>
-
-<div class="wrap">
-  <div class="crumb"><a href="01-home.html">首页</a><span>/</span><a href="02-listing.html">工业品·五金</a><span>/</span>304不锈钢保温杯</div>
-
-  <div class="detail-layout">
-
-    <div>
-      <div class="gallery-main" id="gallery-main"><div data-art="tumbler"></div></div>
-      <div class="gallery-thumbs">
-        <div class="t active" data-art="tumbler"><div data-art="tumbler"></div></div>
-        <div class="t" data-art="bottle"><div data-art="bottle"></div></div>
-        <div class="t" data-art="display"><div data-art="display"></div></div>
-        <div class="t" data-art="shelf"><div data-art="shelf"></div></div>
-        <div class="t" data-art="bag"><div data-art="bag"></div></div>
+<body data-page="detail">
+  <header class="site-header" id="site-header"></header>
+  <main class="wrap page">
+    <nav class="crumb" aria-label="当前位置"><a href="01-home.html">首页</a><span>/</span><a id="detail-category" href="02-listing.html">日用百货</a><span>/</span><span>商品详情</span></nav>
+    <div id="detail-missing" class="panel empty" hidden><h1>商品暂时无法展示</h1><a class="button outline" href="02-listing.html">返回商品列表</a></div>
+    <div id="detail-content">
+      <div class="detail-layout">
+        <section class="gallery" aria-label="商品图集"><div class="hero-photo" id="gallery-main"></div><div class="thumbs" id="gallery-thumbs"></div></section>
+        <section class="decision" aria-labelledby="product-title">
+          <h1 id="product-title">商品详情</h1><div class="product-meta" id="product-meta"></div>
+          <section class="quote" aria-labelledby="quote-title"><h2 id="quote-title">阶梯报价</h2><div id="quote-tiers" class="quote-tiers"></div></section>
+          <div class="sku-options" id="sku-options"></div>
+          <div class="sku-row"><label for="detail-qty">采购数量</label><div class="quantity"><button type="button" data-step="-1" aria-label="减少采购数量">−</button><input id="detail-qty" type="number" step="1"><button type="button" data-step="1" aria-label="增加采购数量">+</button></div><span id="stock-note" class="small"></span></div>
+          <p class="estimate">预估金额 <output class="money" id="estimate" aria-live="polite"></output></p>
+          <div class="services" id="services"></div>
+          <div class="detail-actions"><button type="button" class="button primary" id="add-cart">加入采购车</button><button type="button" class="button outline" id="ask-product">发起询盘</button></div>
+        </section>
       </div>
-      <p class="tiny muted" style="margin-top:10px">源头工厂实拍 · 支持实物打样 · 详情图 6 张</p>
-      <div class="panel" style="margin-top:14px;padding:14px 16px">
-        <div class="swiss-num" style="margin-bottom:8px">WHY THIS PRICE / 价格构成</div>
-        <div style="font-size:12px;color:var(--ink-700);line-height:1.9">
-          <div style="display:flex;justify-content:space-between"><span>原材料（304不锈钢）</span><b>¥6.20</b></div>
-          <div style="display:flex;justify-content:space-between"><span>加工与真空工艺</span><b>¥3.10</b></div>
-          <div style="display:flex;justify-content:space-between"><span>包装与物流分摊</span><b>¥1.40</b></div>
-          <div style="display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:6px;margin-top:6px"><b>合计（500件档）</b><b class="price-color">¥10.70</b></div>
-        </div>
-      </div>
-      <div class="panel" style="margin-top:14px;padding:14px 16px">
-        <div class="swiss-num" style="margin-bottom:6px">30-DAY VOLUME / 成交趋势</div>
-        <svg viewBox="0 0 240 56" width="100%" height="56" preserveAspectRatio="none" aria-label="近30天成交量趋势">
-          <polyline points="0,44 22,40 44,43 66,32 88,35 110,24 132,28 154,18 176,22 198,12 220,16 240,8 240,56 0,56" fill="var(--blue-050)" stroke="none"/>
-          <g fill="none" stroke="var(--blue-700)" stroke-width="1.8">
-            <polyline points="0,44 22,40 44,43 66,32 88,35 110,24 132,28 154,18 176,22 198,12 220,16 240,8"/>
-          </g>
-          <line x1="0" y1="56" x2="240" y2="56" stroke="var(--line)" stroke-width="1"/>
-        </svg>
-        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--ink-400);font-family:var(--font-num);margin-top:3px"><span>06-01</span><span>近 30 日 · 峰值为 618 采购节</span><span>06-30</span></div>
-      </div>
+      <section class="supplier-strip" id="supplier-strip" aria-label="供应商档案"></section>
+      <div class="bottom-detail"><section aria-labelledby="other-title"><h2 id="other-title">同款比价</h2><div id="other-offers"></div></section><section aria-labelledby="related-title"><h2 id="related-title">关联商品</h2><div class="related" id="related"></div></section></div>
     </div>
-
-    <div>
-      <h1 class="d-title">304不锈钢保温杯 定制logo 真空锁温 商务礼品杯</h1>
-      <div class="d-sub"><span>货号 <b>A-203</b></span><span>30天成交 <b>1.2万</b> 件</span><span>回头率 <b>32%</b></span><span>浙江金华发货</span></div>
-
-      <div class="price-panel">
-        <div class="big"><span class="cur">¥</span><span id="cur-price">11.20</span> <span class="tiny muted" style="font-size:12px;font-family:var(--font)">当前档位单价</span></div>
-        <div class="ruler-lg"><span class="seg s1"></span><span class="seg s2"></span><span class="seg s3"></span></div>
-        <div class="ruler-lg-labels"><span><b>50件</b> ¥12.50</span><span><b>500件</b> ¥11.20</span><span><b>2000件</b> ¥10.80</span></div>
-        <table class="step-table">
-          <thead><tr><th>阶梯档位</th><th>50–499</th><th>500–1999</th><th>≥2000</th></tr></thead>
-          <tbody><tr id="step-row"><td>单价</td><td data-step="50">¥12.50</td><td data-step="500">¥11.20</td><td data-step="2000">¥10.80</td></tr></tbody>
-        </table>
-        <p class="tiny muted" style="margin:10px 0 0">价格以阶梯档位为准，量大价优；含税与运费规则请在询盘中确认</p>
-      </div>
-
-      <div class="sku-row"><span class="label">颜色</span><span class="sku-opt active">银色</span><span class="sku-opt">磨砂黑</span><span class="sku-opt">香槟金</span><span class="sku-opt">雾霾蓝</span></div>
-      <div class="sku-row"><span class="label">容量</span><span class="sku-opt">450ml</span><span class="sku-opt active">500ml</span><span class="sku-opt">600ml</span><span class="sku-opt disabled">350ml 缺货</span></div>
-      <div class="sku-row"><span class="label">采购量</span>
-        <div class="qty-input"><button id="qty-minus"><svg class="ico ico-sm"><use href="#i-minus"></use></svg></button><input type="text" id="qty-input" value="500"><button id="qty-plus"><svg class="ico ico-sm"><use href="#i-plus"></use></svg></button></div>
-        <span class="estimate">预估金额 <b id="estimate">¥5,600</b></span>
-      </div>
-
-      <div class="action-row">
-        <button class="btn-ghost" id="btn-inquiry"><svg class="ico ico-sm"><use href="#i-inquiry"></use></svg>发起询盘 / 议价</button>
-        <button class="btn-primary" id="btn-add-cart"><svg class="ico ico-sm"><use href="#i-cart"></use></svg>加入采购车</button>
-      </div>
-      <p class="tiny muted" style="margin-top:10px">询盘可批量附带多个商品，在工作台统一查看供应商回复</p>
-
-      <div class="tabs"><span class="tab active">商品参数</span><span class="tab">详细说明</span><span class="tab">成交记录</span><span class="tab">评价 238</span></div>
-      <table class="spec-table">
-        <tr><td>材质</td><td>内胆 304 不锈钢 · 外壳 201 不锈钢</td><td>容量</td><td>450 / 500 / 600 ml</td></tr>
-        <tr><td>保温时长</td><td>6–12 小时（实测）</td><td>工艺</td><td>真空断热 · 喷砂 / 烤漆</td></tr>
-        <tr><td>定制方式</td><td>激光刻字 / 丝印 / 热转印</td><td>起订量</td><td>50 件起批，定制 500 件起</td></tr>
-        <tr><td>包装</td><td>OPP 袋 + 彩盒（可选礼盒）</td><td>货号</td><td>A-203</td></tr>
-      </table>
-    </div>
-
-    <div>
-      <div class="trust-card">
-        <h4>供应商档案</h4>
-        <div class="supplier-row"><div class="supplier-logo">金盾</div><div class="supplier-meta"><b>永康市金盾工贸有限公司</b><div>源头工厂 · 浙江金华 · 成立 2011 年</div></div></div>
-        <div class="stat-grid">
-          <div class="stat"><div class="v">96%</div><div class="k">回头率</div></div>
-          <div class="stat"><div class="v">4.9</div><div class="k">服务评分</div></div>
-          <div class="stat"><div class="v">98%</div><div class="k">按时发货</div></div>
-        </div>
-        <div class="cert-list">
-          <span class="badge-tag qual"><svg class="ico ico-sm" style="display:inline;vertical-align:-2px"><use href="#i-verified"></use></svg> 营业执照已核验</span>
-          <span class="badge-tag qual">工厂实拍</span><span class="badge-tag qual">ISO9001</span>
-        </div>
-      </div>
-
-      <div class="trust-card">
-        <h4>服务与保障</h4>
-        <div class="service-list">
-          <div><svg class="ico ico-sm"><use href="#i-check"></use></svg><span>48 小时内发货，超时可催单</span></div>
-          <div><svg class="ico ico-sm"><use href="#i-check"></use></svg><span>支持一件代发，无需囤货</span></div>
-          <div><svg class="ico ico-sm"><use href="#i-check"></use></svg><span>7 天无理由退换（定制品除外）</span></div>
-          <div><svg class="ico ico-sm"><use href="#i-check"></use></svg><span>支持打样，样品费下单可退</span></div>
-          <div><svg class="ico ico-sm"><use href="#i-check"></use></svg><span>资质可核验，来源可追溯</span></div>
-        </div>
-      </div>
-
-      <div class="trust-card">
-        <h4>同款比价</h4>
-        <p class="tiny muted" style="margin-top:0">同规格其他供应商报价：</p>
-        <div class="board-row"><span class="name">永康百川杯业</span><span class="val price-color">¥11.80</span></div>
-        <div class="board-row"><span class="name">义乌铭品日用品</span><span class="val price-color">¥14.20</span></div>
-        <div class="board-row"><span class="name">金华恒远金属</span><span class="val price-color">¥16.50</span></div>
-        <a href="02-listing.html" class="tiny" style="color:var(--blue-700);display:block;margin-top:10px;font-weight:600">查看全部同款 ›</a>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<footer class="site-footer"><div class="wrap">
-  <div style="flex:2"><div class="f-brand">源集 YUANJI</div><p>专业 B2B 批发采购平台 · 参数透明 · 供给可比 · 交易可信</p></div>
-  <div><h5>采购者</h5><a href="#">找货指南</a><a href="#">询价技巧</a></div><div><h5>供应商</h5><a href="#">入驻申请</a><a href="#">资质认证</a></div><div><h5>关于</h5><a href="index.html">设计规范</a><a href="#">合规声明</a></div>
-</div><div class="footer-bottom wrap">© 2026 源集 YUANJI · 本设计为产品演示，数据均为模拟</div></footer>
-
-<div class="toast" id="toast"></div>
-<script src="assets/product-art.js"></script>
-<script src="assets/app.js"></script>
-<script>
-(function(){
-  // 主图切换：用工艺线稿替换（去占位符）
-  window.YJ_ART.mount(document);
-  document.querySelectorAll('.gallery-thumbs .t').forEach(function(t){
-    t.addEventListener('click',function(){
-      document.querySelectorAll('.gallery-thumbs .t').forEach(function(x){x.classList.remove('active');});
-      t.classList.add('active');
-      var type=t.getAttribute('data-art');
-      document.querySelector('#gallery-main').innerHTML=window.YJ_ART.render(type);
-    });
-  });
-  document.querySelectorAll('.sku-row').forEach(function(row){
-    row.querySelectorAll('.sku-opt:not(.disabled)').forEach(function(opt){
-      opt.addEventListener('click',function(){row.querySelectorAll('.sku-opt').forEach(function(x){x.classList.remove('active');});opt.classList.add('active');});
-    });
-  });
-  var qty=document.getElementById('qty-input'),priceEl=document.getElementById('cur-price'),estimateEl=document.getElementById('estimate'),stepRow=document.getElementById('step-row');
-  function calc(){
-    var n=parseInt(qty.value,10)||0;
-    var price=n>=2000?10.80:(n>=500?11.20:12.50);
-    priceEl.textContent=price.toFixed(2);
-    estimateEl.textContent='¥'+(n*price).toLocaleString('zh-CN');
-    stepRow.querySelectorAll('td[data-step]').forEach(function(td){
-      var s=parseInt(td.getAttribute('data-step'),10);
-      td.classList.toggle('hit',(s===50&&n<500)||(s===500&&n>=500&&n<2000)||(s===2000&&n>=2000));
-    });
-  }
-  document.getElementById('qty-plus').addEventListener('click',function(){qty.value=(parseInt(qty.value,10)||0)+50;calc();});
-  document.getElementById('qty-minus').addEventListener('click',function(){qty.value=Math.max(50,(parseInt(qty.value,10)||50)-50);calc();});
-  qty.addEventListener('input',calc); calc();
-  document.getElementById('btn-add-cart').addEventListener('click',function(){window.YJ.addCart({id:'p1',title:'304不锈钢保温杯 定制logo 银色 500ml',price:priceEl.textContent,qty:parseInt(qty.value,10)||500,glyph:'i-package',supplier:'永康金盾工贸'});});
-  document.getElementById('btn-inquiry').addEventListener('click',function(){var ok=window.YJ.addInquiry({id:'p1',title:'304不锈钢保温杯 定制logo',price:priceEl.textContent,moq:'50件起批',glyph:'i-package'});if(ok)setTimeout(function(){location.href='04-workbench.html?tab=inquiry&inquired=1';},700);});
-})();
-</script>
+  </main>
+  <footer class="site-footer wrap">源集 YUANJI <span>报价为演示数据，预估金额不含运费</span></footer>
 </body>
 </html>

@@ -1,346 +1,51 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>源集 YUANJI · 专业 B2B 批发采购平台</title>
-<link rel="stylesheet" href="assets/tokens.css">
-<link rel="stylesheet" href="assets/app.css">
-<style>
-  .hero-strip { background: var(--blue-900); color:#fff; padding:22px 0; }
-  .hero-strip h1 { font-size:26px; margin:0 0 6px; font-weight:700; letter-spacing:.5px; }
-  .hero-strip p { margin:0; color:rgba(255,255,255,.72); font-size:13px; }
-  .hero-metrics { display:flex; gap:34px; margin-top:18px; }
-  .hero-metrics .m .v { font-family:var(--font-num); font-size:22px; font-weight:700; }
-  .hero-metrics .m .k { font-size:11px; color:rgba(255,255,255,.6); }
-  .tool-strip { display:grid; grid-template-columns:repeat(4,1fr); border:1px solid var(--line); background:#fff; }
-  .tool-cell { padding:16px 18px; border-right:1px solid var(--line); display:flex; gap:12px; align-items:flex-start; }
-  .tool-cell:last-child{border-right:none;}
-  .tool-cell .ico { color:var(--blue-700); margin-top:2px; }
-  .tool-cell h5 { margin:0 0 3px; font-size:13px; font-weight:700; }
-  .tool-cell p { margin:0; font-size:11px; color:var(--ink-500); line-height:1.5; }
-  .belt-grid { display:grid; grid-template-columns:repeat(8,1fr); border:1px solid var(--line); background:#fff; }
-  .belt-cell { padding:14px 8px; text-align:center; border-right:1px solid var(--line); }
-  .belt-cell:last-child{border-right:none;}
-  .belt-cell .bnum { font-family:var(--font-num); font-size:17px; font-weight:700; color:var(--blue-700); }
-  .belt-cell .bname { font-size:11px; color:var(--ink-700); margin-top:4px; }
-  .belt-cell .bcnt { font-size:10px; color:var(--ink-400); margin-top:2px; }
-  /* 非对称 hero：7/5 数据墙（去均匀化） */
-  .hero-grid { display:grid; grid-template-columns: 1.35fr 1fr; gap:0; border:1px solid var(--line-blue); background:var(--blue-900); color:#fff; }
-  .hero-main { padding:26px 30px; border-right:1px solid rgba(255,255,255,.18); }
-  .hero-main h1 { font-size:34px; margin:0 0 10px; font-weight:600; letter-spacing:-.5px; line-height:1.2; }
-  .hero-main p { margin:0; color:rgba(255,255,255,.72); font-size:13px; max-width:460px; line-height:1.7; }
-  .hero-kicker { font-family:var(--font-num); font-size:10px; letter-spacing:3px; color:var(--blue-300); margin-bottom:14px; }
-  .hero-side { display:grid; grid-template-columns:1fr 1fr; }
-  .hero-side .hc { padding:18px 20px; border-bottom:1px solid rgba(255,255,255,.14); }
-  .hero-side .hc:nth-child(odd){ border-right:1px solid rgba(255,255,255,.14); }
-  .hero-side .hc .v { font-family:var(--font-num); font-size:24px; font-weight:700; letter-spacing:-.5px; }
-  .hero-side .hc .k { font-size:10px; color:rgba(255,255,255,.55); margin-top:3px; }
-  /* 价格情报通栏声明带：打破节奏 */
-  .intel-band { background:var(--blue-700); color:#fff; display:grid; grid-template-columns:170px 1fr auto; align-items:center; gap:22px; padding:14px 22px; margin:var(--s-8) 0; }
-  .intel-band .ib-tag { font-family:var(--font-num); font-size:11px; letter-spacing:2px; border:1px solid rgba(255,255,255,.6); padding:6px 10px; text-align:center; }
-  .intel-band .ib-line { font-size:13px; line-height:1.6; }
-  .intel-band .ib-line b { font-family:var(--font-num); font-size:15px; }
-  .intel-band .ib-meta { font-size:11px; color:rgba(255,255,255,.72); text-align:right; font-family:var(--font-num); }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>源集 · 批发采购首页</title>
+  <link rel="stylesheet" href="assets/tokens.css">
+  <link rel="stylesheet" href="assets/app.css">
+  <script defer src="assets/icons.js"></script>
+  <script defer src="assets/app.js"></script>
+  <script defer src="assets/pages.js"></script>
 </head>
-<body>
-<script src="assets/icons.js"></script>
-
-<div class="topbar"><div class="wrap">
-  <div class="tb-left">专业批发采购平台 · 参数透明，供给可比</div>
-  <div class="tb-right"><a href="#">采购指南</a><a href="04-workbench.html">我的工作台</a><a href="#">帮助中心</a><a href="#" style="color:#fff">登录 / 注册</a></div>
-</div></div>
-
-<header class="site-header">
-  <div class="wrap header-main">
-    <a href="01-home.html" class="logo"><span class="logo-mark">源</span><span class="logo-text">源集<small>YUANJI</small></span></a>
-    <div class="search-box">
-      <input type="text" placeholder="搜索商品、货号或产业带，如：304不锈钢保温杯">
-      <button class="btn-search"><svg class="ico"><use href="#i-search"></use></svg>搜索</button>
-    </div>
-    <div class="img-search"><svg class="ico"><use href="#i-image"></use></svg>图片找货</div>
-    <div class="header-actions">
-      <a href="04-workbench.html" class="ha-item"><svg class="ico ha-ico"><use href="#i-inquiry"></use></svg>询价篮<span class="badge hidden" id="badge-inquiry">0</span></a>
-      <a href="04-workbench.html" class="ha-item"><svg class="ico ha-ico"><use href="#i-cart"></use></svg>采购车<span class="badge hidden" id="badge-cart">0</span></a>
-    </div>
-  </div>
-  <nav class="nav-bar"><div class="wrap">
-    <div class="nav-cat-all"><svg class="ico"><use href="#i-menu"></use></svg>全部商品分类</div>
-    <div class="nav-links">
-      <a href="01-home.html" class="active">首页</a><a href="02-listing.html">源头工厂</a>
-      <a href="02-listing.html">一件代发</a><a href="02-listing.html">定制加工</a>
-      <a href="02-listing.html">进口好货</a><a href="02-listing.html">产业带</a>
-    </div>
-    <div class="nav-extra"><span>今日询价 <b class="num">2,481</b></span><span>在线供应商 <b class="num">8.6万</b></span></div>
-  </div></nav>
-</header>
-
-<!-- Hero 非对称数据墙 -->
-<div style="background:var(--blue-900);padding:22px 0 0"><div class="wrap">
-<div class="hero-grid">
-  <div class="hero-main">
-    <div class="hero-kicker">YUANJI / PROCUREMENT INTELLIGENCE</div>
-    <h1>让源头供给，<br>透明可比。</h1>
-    <p>不靠"逛"，靠参数。阶梯价、起批量、交期与资质，在每一张卡片的第一屏就摆清楚——为真正做批采的人设计。</p>
-  </div>
-  <div class="hero-side">
-    <div class="hc"><div class="v">128,400+</div><div class="k">可比对货源 · 今日 +1,206</div></div>
-    <div class="hc"><div class="v">8.6 万</div><div class="k">已核验供应商</div></div>
-    <div class="hc"><div class="v">32</div><div class="k">源头产业带直连</div></div>
-    <div class="hc"><div class="v">48h</div><div class="k">中位响应时效</div></div>
-  </div>
-</div>
-</div></div>
-
-<div class="wrap">
-
-  <!-- 采购身份 -->
-  <section class="section" style="margin-top:24px">
-    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-      <span class="swiss-num">01 / 采购身份</span>
-      <div class="identity-bar">
-        <button class="id-chip active"><svg class="ico ico-sm"><use href="#i-grid"></use></svg>全部货源</button>
-        <button class="id-chip"><svg class="ico ico-sm"><use href="#i-factory"></use></svg>源头工厂</button>
-        <button class="id-chip"><svg class="ico ico-sm"><use href="#i-package"></use></svg>一件代发</button>
-        <button class="id-chip"><svg class="ico ico-sm"><use href="#i-globe"></use></svg>进口好货</button>
-        <button class="id-chip"><svg class="ico ico-sm"><use href="#i-cog"></use></svg>支持定制</button>
+<body data-page="home">
+  <header class="site-header" id="site-header"></header>
+  <nav class="category-nav" aria-label="采购类目">
+    <div class="wrap">
+      <details class="categories"><summary class="button primary">全部类目</summary><div id="category-menu" class="category-menu"></div></details>
+      <div id="category-links" class="category-links"></div>
+      <div class="identities">
+        <a href="02-listing.html?cert=源头工厂">源头工厂</a><a href="02-listing.html?scene=一件代发">一件代发</a><a href="02-listing.html?scene=进口">进口</a>
       </div>
     </div>
-  </section>
-
-  <!-- 价格情报通栏：数据故事，去均匀化 -->
-  <div class="intel-band">
-    <div class="ib-tag">PRICE<br>INTEL</div>
-    <div class="ib-line">今日「304不锈钢保温杯」中位单价 <b>¥11.80</b>，较昨日 <b>−2.3%</b>；500 件档价格带集中在 <b>¥10.8–¥12.5</b>。低于 ¥10 的报价请重点核验材质与交期。</div>
-    <div class="ib-meta">更新 11:42 · 样本 1,286 条</div>
-  </div>
-
-  <!-- 场景频道 -->
-  <section class="section">
-    <div class="section-head"><span class="sn">02</span><h2>按场景找货</h2><span class="sub">按采购场景聚合，直达可比对货源</span><a href="02-listing.html" class="more">全部场景 <svg class="ico ico-sm"><use href="#i-arrow"></use></svg></a></div>
-    <div class="channel-grid">
-      <a href="02-listing.html" class="channel-card"><svg class="ico ico-lg ch-ico"><use href="#i-cog"></use></svg><h4>工业品·五金</h4><p>标准件 / 手动工具 / 劳保用品</p></a>
-      <a href="02-listing.html" class="channel-card"><svg class="ico ico-lg ch-ico"><use href="#i-package"></use></svg><h4>包装·印刷</h4><p>纸箱 / 标签 / 定制包材</p></a>
-      <a href="02-listing.html" class="channel-card"><svg class="ico ico-lg ch-ico"><use href="#i-user"></use></svg><h4>服饰·鞋帽</h4><p>一件代发 / 源头厂货</p></a>
-      <a href="02-listing.html" class="channel-card"><svg class="ico ico-lg ch-ico"><use href="#i-grid"></use></svg><h4>家居·百货</h4><p>收纳 / 厨具 / 家纺布艺</p></a>
-      <a href="02-listing.html" class="channel-card"><svg class="ico ico-lg ch-ico"><use href="#i-chart"></use></svg><h4>3C·电子</h4><p>配件 / 智能硬件 / 方案</p></a>
-      <a href="02-listing.html" class="channel-card"><svg class="ico ico-lg ch-ico"><use href="#i-shield"></use></svg><h4>美妆·日化</h4><p>包材 / 成品 / OEM 代工</p></a>
-    </div>
-  </section>
-
-  <!-- 采购工具（创新：工具前置） -->
-  <section class="section">
-    <div class="section-head"><span class="sn">03</span><h2>采购工具</h2><span class="sub">把重复的比价动作交给工具</span></div>
-    <div class="tool-strip">
-      <div class="tool-cell"><svg class="ico ico-lg"><use href="#i-ruler"></use></svg><div><h5>阶梯价对比</h5><p>同一商品多供应商价格梯度条并排比对</p></div></div>
-      <div class="tool-cell"><svg class="ico ico-lg"><use href="#i-image"></use></svg><div><h5>以图找货</h5><p>上传图片，匹配同款与相似货源</p></div></div>
-      <div class="tool-cell"><svg class="ico ico-lg"><use href="#i-verified"></use></svg><div><h5>供应商核验</h5><p>资质证照、工厂实拍、履约数据一键查</p></div></div>
-      <div class="tool-cell"><svg class="ico ico-lg"><use href="#i-inquiry"></use></svg><div><h5>批量询价</h5><p>跨页勾选商品，一次发给多家供应商</p></div></div>
-    </div>
-  </section>
-
-  <!-- 采购看板 -->
-  <section class="section">
-    <div class="section-head"><span class="sn">04</span><h2>采购看板</h2><span class="sub">行情与供给动态，辅助采购判断</span></div>
-    <div class="board-grid">
-      <div class="board-card">
-        <h4><span class="dot"></span>热门询价品类 <span class="upd">实时</span></h4>
-        <div class="board-row"><span class="rank">01</span><span class="name">304不锈钢保温杯</span><span class="val up">3,214 次</span></div>
-        <div class="board-row"><span class="rank">02</span><span class="name">可降解快递袋</span><span class="val up">2,876 次</span></div>
-        <div class="board-row"><span class="rank">03</span><span class="name">蓝牙耳机套料</span><span class="val up">2,103 次</span></div>
-        <div class="board-row"><span class="rank">04</span><span class="name">亚克力展示架</span><span class="val">1,640 次</span></div>
-        <div class="board-row"><span class="rank">05</span><span class="name">真空压缩袋</span><span class="val">1,282 次</span></div>
-      </div>
-      <div class="board-card">
-        <h4><span class="dot"></span>产业带行情 <span class="upd">今日</span></h4>
-        <div class="board-row"><span class="name">永康 · 五金工具</span><span class="val">¥18.40</span></div>
-        <div class="board-row"><span class="name">义乌 · 日用百货</span><span class="val">¥6.80</span></div>
-        <div class="board-row"><span class="name">深圳 · 3C配件</span><span class="val">¥23.50</span></div>
-        <div class="board-row"><span class="name">广州 · 美妆包材</span><span class="val">¥1.25</span></div>
-        <div class="board-row"><span class="name">佛山 · 铝制品</span><span class="val">¥32.10</span></div>
-      </div>
-      <div class="board-card">
-        <h4><span class="dot"></span>新认证源头厂 <span class="upd">近7日</span></h4>
-        <div class="board-row"><span class="rank">01</span><span class="name">永康市金盾工贸有限公司</span><span class="val">源头工厂</span></div>
-        <div class="board-row"><span class="rank">02</span><span class="name">义乌市合川日用品厂</span><span class="val">源头工厂</span></div>
-        <div class="board-row"><span class="rank">03</span><span class="name">东莞长安精密塑胶厂</span><span class="val">支持定制</span></div>
-        <div class="board-row"><span class="rank">04</span><span class="name">佛山南海铝制品加工厂</span><span class="val">源头工厂</span></div>
-        <div class="board-row"><span class="rank">05</span><span class="name">深圳宝安声学科技</span><span class="val">源头工厂</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 产业带 -->
-  <section class="section">
-    <div class="section-head"><span class="sn">05</span><h2>源头产业带</h2><span class="sub">产地直连，减少中间环节</span><a href="02-listing.html" class="more">查看全部 <svg class="ico ico-sm"><use href="#i-arrow"></use></svg></a></div>
-    <div class="belt-grid">
-      <a href="02-listing.html" class="belt-cell"><div class="bnum">永康</div><div class="bname">五金杯壶</div><div class="bcnt">2,140 家</div></a>
-      <a href="02-listing.html" class="belt-cell"><div class="bnum">义乌</div><div class="bname">日用百货</div><div class="bcnt">5,860 家</div></a>
-      <a href="02-listing.html" class="belt-cell"><div class="bnum">深圳</div><div class="bname">3C电子</div><div class="bcnt">3,420 家</div></a>
-      <a href="02-listing.html" class="belt-cell"><div class="bnum">东莞</div><div class="bname">塑胶模具</div><div class="bcnt">2,760 家</div></a>
-      <a href="02-listing.html" class="belt-cell"><div class="bnum">广州</div><div class="bname">美妆包材</div><div class="bcnt">1,980 家</div></a>
-      <a href="02-listing.html" class="belt-cell"><div class="bnum">佛山</div><div class="bname">铝制家居</div><div class="bcnt">1,240 家</div></a>
-      <a href="02-listing.html" class="belt-cell"><div class="bnum">苏州</div><div class="bname">精密制造</div><div class="bcnt">1,560 家</div></a>
-      <a href="02-listing.html" class="belt-cell"><div class="bnum">泉州</div><div class="bname">鞋服箱包</div><div class="bcnt">2,310 家</div></a>
-    </div>
-  </section>
-
-  <!-- 推荐商品流 -->
-  <section class="section">
-    <div class="section-head"><span class="sn">06</span><h2>为你推荐</h2><span class="sub">价格梯度条可视化：深→浅代表量大价优，命中档位高亮</span><a href="02-listing.html" class="more">更多好货 <svg class="ico ico-sm"><use href="#i-arrow"></use></svg></a></div>
-    <div class="product-grid" id="rec-grid">
-
-      <div class="product-card">
-        <div class="pc-img"><div data-art="tumbler"></div><span class="img-count">6 图 · 工艺线稿</span></div>
-        <div class="pc-body">
-          <div class="decision-band">
-            <div class="price-line"><span class="price-main"><span class="cur">¥</span>12.50</span><span class="price-step">≥2000 <b>¥10.80</b></span></div>
-            <div class="ruler"><span class="seg s1"></span><span class="seg s2"></span><span class="seg s3"></span></div>
-            <div class="ruler-labels"><span>50件 ¥12.50</span><span>500件 ¥11.20</span><span>2000件 ¥10.80</span></div>
-            <div class="decision-meta"><span class="moq"><b>50</b> 件起批</span><span class="tag-lead">48h发货</span></div>
-          </div>
-          <div class="pc-title">304不锈钢保温杯 定制logo 真空锁温 商务礼品杯</div>
-          <div class="pc-sold">30天成交 <b>1.2万</b> 件 <span class="spark" data-spark="up"></span> <span class="trend-up">+18%</span> · 回头率 32%</div>
-          <div class="pc-supplier">永康市金盾工贸 <span class="loc">· 浙江金华</span> <span class="trust-meter"><span class="trust-bar"><i style="width:96%"></i></span>96</span></div>
-          <div class="pc-bottom">
-            <div class="badge-row"><span class="badge-tag qual">源头工厂</span><span class="badge-tag">一件代发</span><span class="badge-tag">7天无理由</span></div>
-            <div class="pc-spec">SPEC A-203 · 4色 / 3容量</div>
-            <div class="pc-actions"><button class="btn-add-inquiry" data-add-inquiry="p1" data-title="304不锈钢保温杯 定制logo" data-price="12.50" data-moq="50件起批" data-glyph="i-package"><svg class="ico ico-sm"><use href="#i-plus"></use></svg>加入询价</button><a href="03-detail.html" class="btn-detail"><svg class="ico ico-sm"><use href="#i-arrow"></use></svg></a></div>
-          </div>
+  </nav>
+  <main class="wrap home-main">
+    <div class="discovery">
+      <section aria-labelledby="discovery-title">
+        <p class="section-mark">采购发现</p><h1 id="discovery-title">按采购需求找货</h1>
+        <div class="scenes">
+          <a class="scene" href="02-listing.html?scene=小单试采"><span><strong>小单试采</strong><small>低门槛采购，先试后买</small></span><img src="assets/photos/trial.jpg" alt="" width="175" height="99"></a>
+          <a class="scene" href="02-listing.html?scene=品牌定制"><span><strong>品牌定制</strong><small>支持打样与 Logo 定制</small></span><img src="assets/photos/custom.jpg" alt="" width="177" height="100"></a>
+          <a class="scene" href="02-listing.html?scene=现货快发"><span><strong>现货快发</strong><small>48 小时内发货</small></span><img src="assets/photos/express.jpg" alt="" width="176" height="98"></a>
+          <a class="scene" href="02-listing.html?scene=一件代发"><span><strong>一件代发</strong><small>无需囤货，轻松开店</small></span><img src="assets/photos/dropship.jpg" alt="" width="177" height="98"></a>
         </div>
-      </div>
-
-      <div class="product-card">
-        <div class="pc-img"><div data-art="bag"></div><span class="img-count">4 图 · 工艺线稿</span></div>
-        <div class="pc-body">
-          <div class="decision-band">
-            <div class="price-line"><span class="price-main"><span class="cur">¥</span>0.28</span><span class="price-step">≥10000 <b>¥0.21</b></span></div>
-            <div class="ruler"><span class="seg s1"></span><span class="seg s2"></span><span class="seg s3"></span></div>
-            <div class="ruler-labels"><span>500个 ¥0.28</span><span>5000个 ¥0.24</span><span>10000个 ¥0.21</span></div>
-            <div class="decision-meta"><span class="moq"><b>500</b> 个起批</span><span class="tag-lead">24h发货</span></div>
-          </div>
-          <div class="pc-title">可降解快递袋 环保PLA材质 电商打包袋 支持印刷</div>
-          <div class="pc-sold">30天成交 <b>8.6万</b> 件 <span class="spark" data-spark="up"></span> <span class="trend-up">+31%</span> · 回头率 41%</div>
-          <div class="pc-supplier">义乌市合川日用品厂 <span class="loc">· 浙江金华</span> <span class="trust-meter"><span class="trust-bar"><i style="width:94%"></i></span>94</span></div>
-          <div class="pc-bottom">
-            <div class="badge-row"><span class="badge-tag qual">源头工厂</span><span class="badge-tag">可降解认证</span></div>
-            <div class="pc-spec">SPEC B-0917 · 3规格</div>
-            <div class="pc-actions"><button class="btn-add-inquiry" data-add-inquiry="p2" data-title="可降解快递袋 环保材质" data-price="0.28" data-moq="500个起批" data-glyph="i-package"><svg class="ico ico-sm"><use href="#i-plus"></use></svg>加入询价</button><a href="03-detail.html" class="btn-detail"><svg class="ico ico-sm"><use href="#i-arrow"></use></svg></a></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="product-card">
-        <div class="pc-img"><div data-art="earbuds"></div><span class="img-count">9 图 · 工艺线稿</span></div>
-        <div class="pc-body">
-          <div class="decision-band">
-            <div class="price-line"><span class="price-main"><span class="cur">¥</span>23.50</span><span class="price-step">≥1000 <b>¥19.80</b></span></div>
-            <div class="ruler"><span class="seg s1"></span><span class="seg s2"></span><span class="seg s3"></span></div>
-            <div class="ruler-labels"><span>20件 ¥23.50</span><span>200件 ¥21.60</span><span>1000件 ¥19.80</span></div>
-            <div class="decision-meta"><span class="moq"><b>20</b> 件起批</span><span class="tag-lead">48h发货</span></div>
-          </div>
-          <div class="pc-title">TWS蓝牙耳机 主动降噪 长续航 支持ODM/OEM定制</div>
-          <div class="pc-sold">30天成交 <b>6,240</b> 件 <span class="spark" data-spark="up"></span> <span class="trend-up">+9%</span> · 回头率 28%</div>
-          <div class="pc-supplier">深圳宝安声学科技 <span class="loc">· 广东深圳</span> <span class="trust-meter"><span class="trust-bar"><i style="width:91%"></i></span>91</span></div>
-          <div class="pc-bottom">
-            <div class="badge-row"><span class="badge-tag qual">源头工厂</span><span class="badge-tag">支持定制</span></div>
-            <div class="pc-spec">SPEC C-556 · 5色</div>
-            <div class="pc-actions"><button class="btn-add-inquiry" data-add-inquiry="p3" data-title="TWS蓝牙耳机 支持ODM" data-price="23.50" data-moq="20件起批" data-glyph="i-cog"><svg class="ico ico-sm"><use href="#i-plus"></use></svg>加入询价</button><a href="03-detail.html" class="btn-detail"><svg class="ico ico-sm"><use href="#i-arrow"></use></svg></a></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="product-card">
-        <div class="pc-img"><div data-art="display"></div><span class="img-count">5 图 · 工艺线稿</span></div>
-        <div class="pc-body">
-          <div class="decision-band">
-            <div class="price-line"><span class="price-main"><span class="cur">¥</span>8.60</span><span class="price-step">≥500 <b>¥7.20</b></span></div>
-            <div class="ruler"><span class="seg s1"></span><span class="seg s2"></span><span class="seg s3"></span></div>
-            <div class="ruler-labels"><span>30件 ¥8.60</span><span>200件 ¥7.90</span><span>500件 ¥7.20</span></div>
-            <div class="decision-meta"><span class="moq"><b>30</b> 件起批</span><span class="tag-lead">72h发货</span></div>
-          </div>
-          <div class="pc-title">亚克力展示架 透明陈列架 化妆品店桌面展示道具</div>
-          <div class="pc-sold">30天成交 <b>3,180</b> 件 <span class="spark" data-spark="flat"></span> <span class="trend-dn">+2%</span> · 回头率 35%</div>
-          <div class="pc-supplier">东莞长安精密塑胶厂 <span class="loc">· 广东东莞</span> <span class="trust-meter"><span class="trust-bar"><i style="width:89%"></i></span>89</span></div>
-          <div class="pc-bottom">
-            <div class="badge-row"><span class="badge-tag qual">支持定制</span><span class="badge-tag">7天无理由</span></div>
-            <div class="pc-spec">SPEC D-778 · 多规格</div>
-            <div class="pc-actions"><button class="btn-add-inquiry" data-add-inquiry="p4" data-title="亚克力展示架 透明陈列架" data-price="8.60" data-moq="30件起批" data-glyph="i-grid"><svg class="ico ico-sm"><use href="#i-plus"></use></svg>加入询价</button><a href="03-detail.html" class="btn-detail"><svg class="ico ico-sm"><use href="#i-arrow"></use></svg></a></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="product-card">
-        <div class="pc-img"><div data-art="bottle"></div><span class="img-count">7 图 · 工艺线稿</span></div>
-        <div class="pc-body">
-          <div class="decision-band">
-            <div class="price-line"><span class="price-main"><span class="cur">¥</span>1.25</span><span class="price-step">≥10000 <b>¥0.98</b></span></div>
-            <div class="ruler"><span class="seg s1"></span><span class="seg s2"></span><span class="seg s3"></span></div>
-            <div class="ruler-labels"><span>1000个 ¥1.25</span><span>5000个 ¥1.10</span><span>10000个 ¥0.98</span></div>
-            <div class="decision-meta"><span class="moq"><b>1000</b> 个起批</span><span class="tag-lead">48h发货</span></div>
-          </div>
-          <div class="pc-title">化妆品分装瓶 真空按压瓶 旅行套装包材 支持定制</div>
-          <div class="pc-sold">30天成交 <b>12万</b> 件 <span class="spark" data-spark="up"></span> <span class="trend-up">+42%</span> · 回头率 44%</div>
-          <div class="pc-supplier">广州白云美辰包材 <span class="loc">· 广东广州</span> <span class="trust-meter"><span class="trust-bar"><i style="width:97%"></i></span>97</span></div>
-          <div class="pc-bottom">
-            <div class="badge-row"><span class="badge-tag qual">源头工厂</span><span class="badge-tag">支持定制</span></div>
-            <div class="pc-spec">SPEC E-231 · 6规格</div>
-            <div class="pc-actions"><button class="btn-add-inquiry" data-add-inquiry="p5" data-title="化妆品分装瓶 包材定制" data-price="1.25" data-moq="1000个起批" data-glyph="i-shield"><svg class="ico ico-sm"><use href="#i-plus"></use></svg>加入询价</button><a href="03-detail.html" class="btn-detail"><svg class="ico ico-sm"><use href="#i-arrow"></use></svg></a></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="product-card">
-        <div class="pc-img"><div data-art="shelf"></div><span class="img-count">6 图 · 工艺线稿</span></div>
-        <div class="pc-body">
-          <div class="decision-band">
-            <div class="price-line"><span class="price-main"><span class="cur">¥</span>32.10</span><span class="price-step">≥300 <b>¥28.50</b></span></div>
-            <div class="ruler"><span class="seg s1"></span><span class="seg s2"></span><span class="seg s3"></span></div>
-            <div class="ruler-labels"><span>50件 ¥32.10</span><span>100件 ¥30.20</span><span>300件 ¥28.50</span></div>
-            <div class="decision-meta"><span class="moq"><b>50</b> 件起批</span><span class="tag-lead">72h发货</span></div>
-          </div>
-          <div class="pc-title">铝合金折叠置物架 免打孔浴室收纳架 承重加强</div>
-          <div class="pc-sold">30天成交 <b>2,090</b> 件 <span class="spark" data-spark="flat"></span> <span class="trend-dn">+5%</span> · 回头率 31%</div>
-          <div class="pc-supplier">佛山南海铝制品加工厂 <span class="loc">· 广东佛山</span> <span class="trust-meter"><span class="trust-bar"><i style="width:88%"></i></span>88</span></div>
-          <div class="pc-bottom">
-            <div class="badge-row"><span class="badge-tag qual">源头工厂</span><span class="badge-tag">现货</span></div>
-            <div class="pc-spec">SPEC F-640 · 3规格</div>
-            <div class="pc-actions"><button class="btn-add-inquiry" data-add-inquiry="p6" data-title="铝合金折叠置物架" data-price="32.10" data-moq="50件起批" data-glyph="i-cog"><svg class="ico ico-sm"><use href="#i-plus"></use></svg>加入询价</button><a href="03-detail.html" class="btn-detail"><svg class="ico ico-sm"><use href="#i-arrow"></use></svg></a></div>
-          </div>
-        </div>
-      </div>
-
+      </section>
+      <aside class="panel board" aria-labelledby="board-title">
+        <h2 class="section-mark" id="board-title">采购看板</h2>
+        <a href="03-detail.html?id=p1" class="board-row"><span class="board-icon"><svg class="ico" aria-hidden="true"><use href="#i-chart"/></svg></span><span><strong>今日报价</strong><small>304 不锈钢保温杯 <b id="board-cup" class="money"></b> 起</small></span><time datetime="10:24">10:24 更新</time></a>
+        <a href="03-detail.html?id=p2" class="board-row"><span class="board-icon"><svg class="ico" aria-hidden="true"><use href="#i-star"/></svg></span><span><strong>新品上架</strong><small>多功能桌面收纳盒</small></span><time datetime="09:50">09:50 更新</time></a>
+        <a href="02-listing.html?cat=包装耗材" class="board-row"><span class="board-icon"><svg class="ico" aria-hidden="true"><use href="#i-location"/></svg></span><span><strong>产地行情</strong><small>浙江温州 · 快递纸箱 <b id="board-carton" class="money"></b> / 件起</small></span><time datetime="09:30">09:30 更新</time></a>
+      </aside>
     </div>
-    <div style="text-align:center;margin-top:24px"><a href="02-listing.html" class="btn-ghost">查看全部货源 <svg class="ico ico-sm"><use href="#i-arrow"></use></svg></a></div>
-  </section>
-
-</div>
-
-<footer class="site-footer"><div class="wrap">
-  <div style="flex:2"><div class="f-brand">源集 YUANJI</div><p>专业 B2B 批发采购平台 · 参数透明 · 供给可比 · 交易可信</p></div>
-  <div><h5>采购者</h5><a href="#">找货指南</a><a href="#">询价技巧</a><a href="#">采购保障</a></div>
-  <div><h5>供应商</h5><a href="#">入驻申请</a><a href="#">资质认证</a><a href="#">工厂直供</a></div>
-  <div><h5>关于</h5><a href="index.html">设计规范</a><a href="#">联系我们</a><a href="#">合规声明</a></div>
-</div><div class="footer-bottom wrap">© 2026 源集 YUANJI · 本设计为产品演示，数据均为模拟</div></footer>
-
-<div class="toast" id="toast"></div>
-<script src="assets/product-art.js"></script>
-<script>
-// 微趋势 sparkline：用确定性高度序列生成，避免随机数导致的抖动
-(function(){
-  var PATTERNS = {
-    up:   [3,5,4,7,6,9,8,11,10,13],
-    flat: [6,7,6,8,7,7,8,7,9,8]
-  };
-  document.querySelectorAll('[data-spark]').forEach(function(el){
-    var seq = PATTERNS[el.getAttribute('data-spark')] || PATTERNS.flat;
-    el.innerHTML = seq.map(function(h,i){
-      return '<i style="height:'+h+'px'+(i>=8?'" class="up':'"')+'></i>';
-    }).join('');
-  });
-})();
-</script>
-<script src="assets/app.js"></script>
+    <section class="recommend" aria-labelledby="recommend-title">
+      <div class="section-head"><h2 class="section-mark" id="recommend-title">采购推荐</h2><button id="shuffle" class="link" type="button">换一批 <span aria-hidden="true">↻</span></button></div>
+      <p class="visually-hidden" id="recommend-status" role="status"></p>
+      <div class="product-grid" id="recommend-grid"></div>
+      <div class="center"><button class="button outline" id="load-more" type="button">加载更多</button></div>
+    </section>
+  </main>
+  <footer class="site-footer wrap">源集 YUANJI · 专业批发采购 <span>商品、报价与行情均为演示数据</span></footer>
 </body>
 </html>

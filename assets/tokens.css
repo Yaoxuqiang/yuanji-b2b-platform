@@ -1,105 +1,40 @@
-/* ============================================================
-   源集 YUANJI · 设计令牌  [Swiss / 蓝白]
-   Anchor: Swiss — 纯白 + Yves Klein Blue + 无衬线 + 可见网格
-   Differentiator: Blueprint 参数刻度（价格梯度条 + 工程网格 + 编号系统）
-   ============================================================ */
 :root {
-  /* ---- 蓝色阶（单一强调色：Yves Klein Blue） ---- */
-  --blue-950: #00104a;
-  --blue-900: #001a57;   /* 深蓝：主文字 / 页头 */
-  --blue-800: #00247d;   /* 深蓝：导航 */
-  --blue-700: #002fa7;   /* Yves Klein Blue：主色 / 按钮 */
-  --blue-600: #1b4dde;   /* 交互态 */
-  --blue-500: #3d6fe8;   /* 亮蓝：图表次色 */
-  --blue-300: #9db8f0;
-  --blue-100: #e6ecff;
-  --blue-050: #f2f5ff;
-
-  /* ---- 中性冷灰（不带黄调） ---- */
-  --ink-900: #0a0d14;
-  --ink-700: #333a49;
-  --ink-500: #6b7382;
-  --ink-400: #949bab;
-  --ink-300: #bcc2cf;
-  --line: #dde2ec;       /* 常规 1px 规则线 */
-  --line-blue: #b9c8ee;  /* 蓝色细规则（Swiss hairline） */
-  --bg: #f7f7f8;
-  --surface: #ffffff;
-  --surface-alt: #f4f6fb;
-
-  /* ---- 语义色：全部落在蓝白体系内 ---- */
-  --price: #002fa7;
-  --price-strong: #001a57;
-  --danger: #c0102f;     /* Swiss Red，仅缺货/错误极少量 */
-  --success: #002fa7;
-
-  /* ---- Swiss 圆角：近乎直角 ---- */
-  --r-xs: 0px;
-  --r-sm: 2px;
-  --r-md: 3px;
-
-  /* ---- 阴影：几乎无，靠细线划分 ---- */
-  --shadow-sm: 0 1px 2px rgba(0, 26, 87, 0.06);
-  --shadow-pop: 0 10px 30px rgba(0, 26, 87, 0.14);
-
-  /* ---- 间距 ---- */
-  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
-  --s-5: 20px; --s-6: 24px; --s-8: 32px; --s-10: 40px;
-
-  /* ---- 字体：单一无衬线家族 ---- */
-  --font: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
-  --font-num: "Helvetica Neue", Arial, sans-serif;
-
-  --page-max: 1280px;
+  color-scheme: light;
+  --ink: #16231f;
+  --muted: #52605a;
+  --green: #154f40;
+  --green-dark: #103f33;
+  --soft: #e7f0eb;
+  --base: #f4f7f5;
+  --paper: #fff;
+  --line: #dce5e0;
+  --radius: 8px;
+  --gap: 16px;
+  --gutter: clamp(16px, 2vw, 32px);
+  font: 16px/1.5 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--base);
 }
-
 * { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
-body {
-  font-family: var(--font);
-  color: var(--ink-900);
-  /* Swiss 可见网格：24px 工程网格 —— 记忆点之一 */
-  background-color: var(--bg);
-  background-image:
-    linear-gradient(rgba(0, 47, 167, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 47, 167, 0.045) 1px, transparent 1px);
-  background-size: 24px 24px;
-  font-size: 14px;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-}
-a { color: inherit; text-decoration: none; }
-button, input, select { font-family: inherit; }
+body { margin: 0; }
+button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+a { color: inherit; text-decoration: none; }
+a:hover, .link:hover { text-decoration: underline; text-underline-offset: 3px; }
 img, svg { display: block; }
-ul { margin: 0; padding: 0; list-style: none; }
-
-.wrap { max-width: var(--page-max); margin: 0 auto; padding: 0 var(--s-6); }
-.muted { color: var(--ink-500); }
-.tiny { font-size: 12px; }
-.num { font-family: var(--font-num); font-variant-numeric: tabular-nums; }
-.price-color { color: var(--price); }
-
-/* ---- SVG 线性图标（替代 Unicode 假图标） ---- */
-.ico { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: square; stroke-linejoin: miter; flex-shrink: 0; }
-.ico-lg { width: 22px; height: 22px; }
-.ico-sm { width: 14px; height: 14px; }
-
-/* ---- Swiss 编号标签 ---- */
-.swiss-num { font-family: var(--font-num); font-size: 11px; font-weight: 700; color: var(--blue-700); letter-spacing: 1px; }
-
-/* ---- 商品工艺线稿（Blueprint Product Art） ---- */
-.p-art { width: 100%; height: 100%; color: var(--blue-700); display: block; }
-[data-art] { width: 100%; height: 100%; display: grid; place-items: center; color: var(--blue-700); }
-
-/* ---- 微趋势线 / 数据故事 ---- */
-.spark { display: inline-flex; align-items: flex-end; gap: 1px; height: 14px; vertical-align: -2px; }
-.spark i { display: block; width: 3px; background: var(--blue-300); }
-.spark i.up { background: var(--blue-700); }
-.trend-up { color: var(--price); }
-.trend-dn { color: var(--ink-500); }
-
-/* ---- 可信度刻度（供应商评分条） ---- */
-.trust-meter { display: flex; align-items: center; gap: 6px; }
-.trust-bar { flex: 1; height: 3px; background: var(--line); max-width: 54px; }
-.trust-bar i { display: block; height: 100%; background: var(--blue-700); }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--green); margin: 0; vertical-align: middle; }
+h1, h2, h3, p { margin: 0; }
+h1 { font-size: clamp(25px, 2.3vw, 36px); line-height: 1.25; }
+h2 { font-size: 21px; }
+h3 { font-size: 17px; }
+small, .small { font-size: .875rem; }
+.muted { color: var(--muted); }
+.money, .num, time, output { font-variant-numeric: tabular-nums; }
+.money { font-weight: 750; }
+.wrap { max-width: 1600px; padding-inline: var(--gutter); margin-inline: auto; }
+.ico { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
