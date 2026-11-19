@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>源集 YUANJI · 设计规范与原型导航</title>
+<link rel="stylesheet" href="assets/tokens.css">
+<link rel="stylesheet" href="assets/app.css">
+<style>
+  .hero { background:var(--blue-900); color:#fff; padding:50px 0 44px; border-bottom:4px solid var(--blue-700); }
+  .hero .logo-mark{background:var(--blue-700);} .hero .logo-text{color:#fff;} .hero .logo-text small{color:rgba(255,255,255,.5);}
+  .hero .anchor-tag { display:inline-block; border:1px solid rgba(255,255,255,.5); padding:4px 12px; font-size:11px; letter-spacing:2px; margin-bottom:18px; }
+  .hero h1 { font-size:34px; margin:0 0 12px; font-weight:700; letter-spacing:1px; }
+  .hero p { color:rgba(255,255,255,.75); font-size:14px; max-width:760px; line-height:1.85; margin:0; }
+  .hero .tags { margin-top:22px; display:flex; gap:10px; flex-wrap:wrap; }
+  .hero .tag { border:1px solid rgba(255,255,255,.3); padding:6px 14px; font-size:12px; color:rgba(255,255,255,.9); }
+  .nav-section { margin:34px 0; }
+  .nav-section h2 { font-size:18px; margin:0 0 16px; padding-bottom:10px; border-bottom:1px solid var(--line-blue); display:flex; align-items:center; gap:10px; }
+  .nav-section h2 .sn{font-family:var(--font-num);font-size:12px;font-weight:700;color:var(--blue-700);border:1px solid var(--blue-700);padding:2px 6px;}
+  .page-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  .page-card { background:var(--surface); border:1px solid var(--line); padding:22px; display:flex; gap:18px; transition:border-color .15s; }
+  .page-card:hover{border-color:var(--blue-700);}
+  .page-card .num { width:46px; height:46px; background:var(--blue-700); color:#fff; display:grid; place-items:center; font-size:18px; font-weight:700; flex-shrink:0; }
+  .page-card h3 { margin:2px 0 8px; font-size:16px; } .page-card p { margin:0; color:var(--ink-500); font-size:13px; line-height:1.7; }
+  .page-card .go { margin-left:auto; align-self:center; color:var(--blue-700); }
+  .spec-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  .spec-card { background:var(--surface); border:1px solid var(--line); padding:20px 22px; }
+  .spec-card h4 { margin:0 0 14px; font-size:14px; display:flex; align-items:center; gap:8px; }
+  .spec-card h4::before { content:""; width:3px; height:14px; background:var(--blue-700); }
+  .color-row { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
+  .swatch { width:56px; height:46px; display:grid; place-items:center; color:#fff; font-size:9px; text-align:center; }
+  .type-sample { font-size:13px; color:var(--ink-700); line-height:1.95; }
+  .diff-table { width:100%; border-collapse:collapse; font-size:13px; background:var(--surface); }
+  .diff-table th,.diff-table td { padding:12px 14px; border:1px solid var(--line); text-align:left; }
+  .diff-table th { background:var(--blue-900); color:#fff; font-weight:600; }
+  .diff-table td.hl { color:var(--blue-700); font-weight:600; }
+  .note { background:var(--blue-050); border:1px solid var(--line-blue); border-left:3px solid var(--blue-700); padding:14px 18px; font-size:13px; color:var(--ink-700); margin-top:16px; }
+  .ruler-demo{display:flex;height:16px;gap:3px;margin:12px 0 4px;} .ruler-demo span{flex:1;} .ruler-demo .s1{background:var(--blue-100)} .ruler-demo .s2{background:var(--blue-300)} .ruler-demo .s3{background:var(--blue-700)}
+</style>
+</head>
+<body>
+<script src="assets/icons.js"></script>
+
+<div class="hero"><div class="wrap">
+  <div class="logo"><span class="logo-mark">源</span><span class="logo-text">源集<small>YUANJI</small></span></div>
+  <div class="anchor-tag">ANCHOR / SWISS — YVES KLEIN BLUE</div>
+  <h1>B2B 批发采购平台 · 设计规范与高保真原型</h1>
+  <p>蓝白配色，锚定瑞士国际主义：纯白底 + Yves Klein Blue + 单一无衬线家族 + 可见工程网格 + 1px 细规则。以「参数优先」为信息内核，用一套 Blueprint 参数刻度系统，把阶梯报价从数字变成可扫读的视觉标尺——这是与橙红促销风格最本质的区别。</p>
+  <div class="tags"><span class="tag">蓝白 · Yves Klein Blue</span><span class="tag">Swiss 网格</span><span class="tag">价格梯度条</span><span class="tag">SVG 线性图标</span><span class="tag">Swiss 编号系统</span><span class="tag">内容真实不掺水</span></div>
+</div></div>
+
+<div class="wrap">
+
+  <section class="nav-section">
+    <h2><span class="sn">01</span>四页面原型导航</h2>
+    <div class="page-grid">
+      <a href="01-home.html" class="page-card"><span class="num">01</span><div><h3>首页 · 发现导购</h3><p>Hero 指标带、采购身份、场景频道、采购工具、采购看板、源头产业带、参数优先推荐流。</p></div><span class="go"><svg class="ico ico-lg"><use href="#i-arrow"></use></svg></span></a>
+      <a href="02-listing.html" class="page-card"><span class="num">02</span><div><h3>搜索结果页 · 比货</h3><p>价格刻度尺、多维筛选、网格/对比列表双视图、参数横向对齐、常驻询价篮与比价提示。</p></div><span class="go"><svg class="ico ico-lg"><use href="#i-arrow"></use></svg></span></a>
+      <a href="03-detail.html" class="page-card"><span class="num">03</span><div><h3>商品详情页 · 决策</h3><p>SKU 联动大号价格梯度条、价格构成拆解、供应商档案、服务保障、同款比价。</p></div><span class="go"><svg class="ico ico-lg"><use href="#i-arrow"></use></svg></span></a>
+      <a href="04-workbench.html" class="page-card"><span class="num">04</span><div><h3>采购工作台 · 管理</h3><p>采购车按供应商分组、询盘时间线、订单履约、收藏供应商、采购数据趋势。</p></div><span class="go"><svg class="ico ico-lg"><use href="#i-arrow"></use></svg></span></a>
+    </div>
+  </section>
+
+  <section class="nav-section">
+    <h2><span class="sn">02</span>设计令牌</h2>
+    <div class="spec-grid">
+      <div class="spec-card">
+        <h4>色彩系统</h4>
+        <div class="color-row">
+          <div class="swatch" style="background:#00104a">950<br>页脚</div>
+          <div class="swatch" style="background:#001a57">900<br>标题</div>
+          <div class="swatch" style="background:#00247d">800<br>导航</div>
+          <div class="swatch" style="background:#002fa7">700<br>Klein Blue</div>
+          <div class="swatch" style="background:#1b4dde">600<br>交互</div>
+          <div class="swatch" style="background:#e6ecff;color:#001a57">100<br>浅底</div>
+        </div>
+        <div class="type-sample">纯白 #FFFFFF 卡面 · 冷灰底 #F7F7F8<br>价格 = 品牌蓝，绝不用橙红；单一强调色不外挂暖色。</div>
+      </div>
+      <div class="spec-card">
+        <h4>字体与层级</h4>
+        <div class="type-sample">
+          <b style="font-size:19px">页面标题 19px / 700</b><br>
+          <b style="font-size:16px">区块标题 16px / 700</b><br>
+          <span style="font-size:14px">正文 14px · 行高 1.5</span><br>
+          <span class="muted" style="font-size:12px">辅助信息 12px</span><br>
+          单一无衬线家族；数字用 tabular-nums 对齐。
+        </div>
+      </div>
+      <div class="spec-card">
+        <h4>结构 · Swiss 规则</h4>
+        <div class="type-sample">
+          24px 可见工程网格贯穿全站；<br>
+          1px 细规则线划分结构，几乎无阴影；<br>
+          圆角 0–3px，近乎直角；<br>
+          左对齐，编号 01/02/03 标注区块。
+        </div>
+      </div>
+      <div class="spec-card">
+        <h4>创新点 · Blueprint 参数刻度</h4>
+        <div class="ruler-demo"><span class="s1"></span><span class="s2"></span><span class="s3"></span></div>
+        <div class="type-sample" style="font-size:12px">价格梯度条：由浅→深代表量大价优，命中档位高亮。让采购者一眼扫出量价关系，而非逐字读数字。</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="nav-section">
+    <h2><span class="sn">03</span>与 1688 的差异化对照</h2>
+    <table class="diff-table">
+      <thead><tr><th style="width:110px">维度</th><th>传统 1688 风格</th><th>源集（本方案）</th></tr></thead>
+      <tbody>
+        <tr><td>色彩</td><td>橙红营销色、促销氛围</td><td class="hl">蓝白 · Yves Klein Blue，冷静专业</td></tr>
+        <tr><td>信息流</td><td>九宫格 + 营销楼层堆叠</td><td class="hl">参数优先卡片 + 对比列表，服务比货</td></tr>
+        <tr><td>价格表达</td><td>单一价格 + 促销标</td><td class="hl">价格梯度条可视化量价关系（创新点）</td></tr>
+        <tr><td>图标</td><td>彩色图标 / emoji</td><td class="hl">统一 SVG 线性图标，1.7 描边方头</td></tr>
+        <tr><td>交互</td><td>无限下拉的「逛」</td><td class="hl">任务导向 + 常驻询价篮批量议价</td></tr>
+        <tr><td>内容</td><td>营销文案占位</td><td class="hl">具体品类、货号、产地、价格构成，无填充词</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>内容纪律：</b>本设计所有字符串均为具体的业务信息（品类、货号、价格、产地、资质），不使用 emoji/符号假图标，不写"Authenticate Session"式替换文案，不放无意义占位。数据为演示模拟。</div>
+  </section>
+
+</div>
+
+<footer class="site-footer"><div class="wrap">
+  <div style="flex:2"><div class="f-brand">源集 YUANJI</div><p>蓝白 · Swiss · 参数优先的 B2B 批发采购平台</p></div>
+  <div><h5>原型页面</h5><a href="01-home.html">首页</a><a href="02-listing.html">结果页</a><a href="03-detail.html">详情页</a><a href="04-workbench.html">工作台</a></div>
+  <div><h5>关于</h5><a href="#">设计规范</a><a href="#">合规声明</a></div>
+</div><div class="footer-bottom wrap">© 2026 源集 YUANJI · 本设计为产品演示，数据均为模拟</div></footer>
+
+</body>
+</html>

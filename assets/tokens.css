@@ -1,0 +1,89 @@
+/* ============================================================
+   源集 YUANJI · 设计令牌  [Swiss / 蓝白]
+   Anchor: Swiss — 纯白 + Yves Klein Blue + 无衬线 + 可见网格
+   Differentiator: Blueprint 参数刻度（价格梯度条 + 工程网格 + 编号系统）
+   ============================================================ */
+:root {
+  /* ---- 蓝色阶（单一强调色：Yves Klein Blue） ---- */
+  --blue-950: #00104a;
+  --blue-900: #001a57;   /* 深蓝：主文字 / 页头 */
+  --blue-800: #00247d;   /* 深蓝：导航 */
+  --blue-700: #002fa7;   /* Yves Klein Blue：主色 / 按钮 */
+  --blue-600: #1b4dde;   /* 交互态 */
+  --blue-500: #3d6fe8;   /* 亮蓝：图表次色 */
+  --blue-300: #9db8f0;
+  --blue-100: #e6ecff;
+  --blue-050: #f2f5ff;
+
+  /* ---- 中性冷灰（不带黄调） ---- */
+  --ink-900: #0a0d14;
+  --ink-700: #333a49;
+  --ink-500: #6b7382;
+  --ink-400: #949bab;
+  --ink-300: #bcc2cf;
+  --line: #dde2ec;       /* 常规 1px 规则线 */
+  --line-blue: #b9c8ee;  /* 蓝色细规则（Swiss hairline） */
+  --bg: #f7f7f8;
+  --surface: #ffffff;
+  --surface-alt: #f4f6fb;
+
+  /* ---- 语义色：全部落在蓝白体系内 ---- */
+  --price: #002fa7;
+  --price-strong: #001a57;
+  --danger: #c0102f;     /* Swiss Red，仅缺货/错误极少量 */
+  --success: #002fa7;
+
+  /* ---- Swiss 圆角：近乎直角 ---- */
+  --r-xs: 0px;
+  --r-sm: 2px;
+  --r-md: 3px;
+
+  /* ---- 阴影：几乎无，靠细线划分 ---- */
+  --shadow-sm: 0 1px 2px rgba(0, 26, 87, 0.06);
+  --shadow-pop: 0 10px 30px rgba(0, 26, 87, 0.14);
+
+  /* ---- 间距 ---- */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+  --s-5: 20px; --s-6: 24px; --s-8: 32px; --s-10: 40px;
+
+  /* ---- 字体：单一无衬线家族 ---- */
+  --font: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-num: "Helvetica Neue", Arial, sans-serif;
+
+  --page-max: 1280px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  color: var(--ink-900);
+  /* Swiss 可见网格：24px 工程网格 —— 记忆点之一 */
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(rgba(0, 47, 167, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 47, 167, 0.045) 1px, transparent 1px);
+  background-size: 24px 24px;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+button, input, select { font-family: inherit; }
+button { cursor: pointer; }
+img, svg { display: block; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+.wrap { max-width: var(--page-max); margin: 0 auto; padding: 0 var(--s-6); }
+.muted { color: var(--ink-500); }
+.tiny { font-size: 12px; }
+.num { font-family: var(--font-num); font-variant-numeric: tabular-nums; }
+.price-color { color: var(--price); }
+
+/* ---- SVG 线性图标（替代 Unicode 假图标） ---- */
+.ico { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: square; stroke-linejoin: miter; flex-shrink: 0; }
+.ico-lg { width: 22px; height: 22px; }
+.ico-sm { width: 14px; height: 14px; }
+
+/* ---- Swiss 编号标签 ---- */
+.swiss-num { font-family: var(--font-num); font-size: 11px; font-weight: 700; color: var(--blue-700); letter-spacing: 1px; }
