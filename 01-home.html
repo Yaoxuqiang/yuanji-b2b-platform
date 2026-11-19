@@ -25,6 +25,23 @@
   .belt-cell .bnum { font-family:var(--font-num); font-size:17px; font-weight:700; color:var(--blue-700); }
   .belt-cell .bname { font-size:11px; color:var(--ink-700); margin-top:4px; }
   .belt-cell .bcnt { font-size:10px; color:var(--ink-400); margin-top:2px; }
+  /* 非对称 hero：7/5 数据墙（去均匀化） */
+  .hero-grid { display:grid; grid-template-columns: 1.35fr 1fr; gap:0; border:1px solid var(--line-blue); background:var(--blue-900); color:#fff; }
+  .hero-main { padding:26px 30px; border-right:1px solid rgba(255,255,255,.18); }
+  .hero-main h1 { font-size:34px; margin:0 0 10px; font-weight:600; letter-spacing:-.5px; line-height:1.2; }
+  .hero-main p { margin:0; color:rgba(255,255,255,.72); font-size:13px; max-width:460px; line-height:1.7; }
+  .hero-kicker { font-family:var(--font-num); font-size:10px; letter-spacing:3px; color:var(--blue-300); margin-bottom:14px; }
+  .hero-side { display:grid; grid-template-columns:1fr 1fr; }
+  .hero-side .hc { padding:18px 20px; border-bottom:1px solid rgba(255,255,255,.14); }
+  .hero-side .hc:nth-child(odd){ border-right:1px solid rgba(255,255,255,.14); }
+  .hero-side .hc .v { font-family:var(--font-num); font-size:24px; font-weight:700; letter-spacing:-.5px; }
+  .hero-side .hc .k { font-size:10px; color:rgba(255,255,255,.55); margin-top:3px; }
+  /* 价格情报通栏声明带：打破节奏 */
+  .intel-band { background:var(--blue-700); color:#fff; display:grid; grid-template-columns:170px 1fr auto; align-items:center; gap:22px; padding:14px 22px; margin:var(--s-8) 0; }
+  .intel-band .ib-tag { font-family:var(--font-num); font-size:11px; letter-spacing:2px; border:1px solid rgba(255,255,255,.6); padding:6px 10px; text-align:center; }
+  .intel-band .ib-line { font-size:13px; line-height:1.6; }
+  .intel-band .ib-line b { font-family:var(--font-num); font-size:15px; }
+  .intel-band .ib-meta { font-size:11px; color:rgba(255,255,255,.72); text-align:right; font-family:var(--font-num); }
 </style>
 </head>
 <body>
@@ -59,16 +76,21 @@
   </div></nav>
 </header>
 
-<!-- Hero 指标带 -->
-<div class="hero-strip"><div class="wrap">
-  <h1>让源头供给，透明可比。</h1>
-  <p>把阶梯报价、起批量与交期放在第一位——为真正做批采的人设计的采购界面。</p>
-  <div class="hero-metrics">
-    <div class="m"><div class="v">128,400+</div><div class="k">可比对货源</div></div>
-    <div class="m"><div class="v">8.6 万</div><div class="k">认证供应商</div></div>
-    <div class="m"><div class="v">32 个</div><div class="k">源头产业带</div></div>
-    <div class="m"><div class="v">48h</div><div class="k">平均响应时效</div></div>
+<!-- Hero 非对称数据墙 -->
+<div style="background:var(--blue-900);padding:22px 0 0"><div class="wrap">
+<div class="hero-grid">
+  <div class="hero-main">
+    <div class="hero-kicker">YUANJI / PROCUREMENT INTELLIGENCE</div>
+    <h1>让源头供给，<br>透明可比。</h1>
+    <p>不靠"逛"，靠参数。阶梯价、起批量、交期与资质，在每一张卡片的第一屏就摆清楚——为真正做批采的人设计。</p>
   </div>
+  <div class="hero-side">
+    <div class="hc"><div class="v">128,400+</div><div class="k">可比对货源 · 今日 +1,206</div></div>
+    <div class="hc"><div class="v">8.6 万</div><div class="k">已核验供应商</div></div>
+    <div class="hc"><div class="v">32</div><div class="k">源头产业带直连</div></div>
+    <div class="hc"><div class="v">48h</div><div class="k">中位响应时效</div></div>
+  </div>
+</div>
 </div></div>
 
 <div class="wrap">
@@ -86,6 +108,13 @@
       </div>
     </div>
   </section>
+
+  <!-- 价格情报通栏：数据故事，去均匀化 -->
+  <div class="intel-band">
+    <div class="ib-tag">PRICE<br>INTEL</div>
+    <div class="ib-line">今日「304不锈钢保温杯」中位单价 <b>¥11.80</b>，较昨日 <b>−2.3%</b>；500 件档价格带集中在 <b>¥10.8–¥12.5</b>。低于 ¥10 的报价请重点核验材质与交期。</div>
+    <div class="ib-meta">更新 11:42 · 样本 1,286 条</div>
+  </div>
 
   <!-- 场景频道 -->
   <section class="section">
@@ -163,7 +192,7 @@
     <div class="product-grid" id="rec-grid">
 
       <div class="product-card">
-        <div class="pc-img"><div class="ph"><svg class="ico ico-lg glyph" style="width:52px;height:52px"><use href="#i-package"></use></svg>商品主图</div><span class="img-count">6 图</span></div>
+        <div class="pc-img"><div data-art="tumbler"></div><span class="img-count">6 图 · 工艺线稿</span></div>
         <div class="pc-body">
           <div class="decision-band">
             <div class="price-line"><span class="price-main"><span class="cur">¥</span>12.50</span><span class="price-step">≥2000 <b>¥10.80</b></span></div>
@@ -172,8 +201,8 @@
             <div class="decision-meta"><span class="moq"><b>50</b> 件起批</span><span class="tag-lead">48h发货</span></div>
           </div>
           <div class="pc-title">304不锈钢保温杯 定制logo 真空锁温 商务礼品杯</div>
-          <div class="pc-sold">30天成交 <b>1.2万</b> 件 · 回头率 32%</div>
-          <div class="pc-supplier">永康市金盾工贸有限公司 <span class="loc">· 浙江金华</span></div>
+          <div class="pc-sold">30天成交 <b>1.2万</b> 件 <span class="spark" data-spark="up"></span> <span class="trend-up">+18%</span> · 回头率 32%</div>
+          <div class="pc-supplier">永康市金盾工贸 <span class="loc">· 浙江金华</span> <span class="trust-meter"><span class="trust-bar"><i style="width:96%"></i></span>96</span></div>
           <div class="pc-bottom">
             <div class="badge-row"><span class="badge-tag qual">源头工厂</span><span class="badge-tag">一件代发</span><span class="badge-tag">7天无理由</span></div>
             <div class="pc-spec">SPEC A-203 · 4色 / 3容量</div>
@@ -183,7 +212,7 @@
       </div>
 
       <div class="product-card">
-        <div class="pc-img"><div class="ph"><svg class="ico ico-lg glyph" style="width:52px;height:52px"><use href="#i-package"></use></svg>商品主图</div><span class="img-count">4 图</span></div>
+        <div class="pc-img"><div data-art="bag"></div><span class="img-count">4 图 · 工艺线稿</span></div>
         <div class="pc-body">
           <div class="decision-band">
             <div class="price-line"><span class="price-main"><span class="cur">¥</span>0.28</span><span class="price-step">≥10000 <b>¥0.21</b></span></div>
@@ -192,8 +221,8 @@
             <div class="decision-meta"><span class="moq"><b>500</b> 个起批</span><span class="tag-lead">24h发货</span></div>
           </div>
           <div class="pc-title">可降解快递袋 环保PLA材质 电商打包袋 支持印刷</div>
-          <div class="pc-sold">30天成交 <b>8.6万</b> 件 · 回头率 41%</div>
-          <div class="pc-supplier">义乌市合川日用品厂 <span class="loc">· 浙江金华</span></div>
+          <div class="pc-sold">30天成交 <b>8.6万</b> 件 <span class="spark" data-spark="up"></span> <span class="trend-up">+31%</span> · 回头率 41%</div>
+          <div class="pc-supplier">义乌市合川日用品厂 <span class="loc">· 浙江金华</span> <span class="trust-meter"><span class="trust-bar"><i style="width:94%"></i></span>94</span></div>
           <div class="pc-bottom">
             <div class="badge-row"><span class="badge-tag qual">源头工厂</span><span class="badge-tag">可降解认证</span></div>
             <div class="pc-spec">SPEC B-0917 · 3规格</div>
@@ -203,7 +232,7 @@
       </div>
 
       <div class="product-card">
-        <div class="pc-img"><div class="ph"><svg class="ico ico-lg glyph" style="width:52px;height:52px"><use href="#i-cog"></use></svg>商品主图</div><span class="img-count">9 图</span></div>
+        <div class="pc-img"><div data-art="earbuds"></div><span class="img-count">9 图 · 工艺线稿</span></div>
         <div class="pc-body">
           <div class="decision-band">
             <div class="price-line"><span class="price-main"><span class="cur">¥</span>23.50</span><span class="price-step">≥1000 <b>¥19.80</b></span></div>
@@ -212,8 +241,8 @@
             <div class="decision-meta"><span class="moq"><b>20</b> 件起批</span><span class="tag-lead">48h发货</span></div>
           </div>
           <div class="pc-title">TWS蓝牙耳机 主动降噪 长续航 支持ODM/OEM定制</div>
-          <div class="pc-sold">30天成交 <b>6,240</b> 件 · 回头率 28%</div>
-          <div class="pc-supplier">深圳宝安声学科技有限公司 <span class="loc">· 广东深圳</span></div>
+          <div class="pc-sold">30天成交 <b>6,240</b> 件 <span class="spark" data-spark="up"></span> <span class="trend-up">+9%</span> · 回头率 28%</div>
+          <div class="pc-supplier">深圳宝安声学科技 <span class="loc">· 广东深圳</span> <span class="trust-meter"><span class="trust-bar"><i style="width:91%"></i></span>91</span></div>
           <div class="pc-bottom">
             <div class="badge-row"><span class="badge-tag qual">源头工厂</span><span class="badge-tag">支持定制</span></div>
             <div class="pc-spec">SPEC C-556 · 5色</div>
@@ -223,7 +252,7 @@
       </div>
 
       <div class="product-card">
-        <div class="pc-img"><div class="ph"><svg class="ico ico-lg glyph" style="width:52px;height:52px"><use href="#i-grid"></use></svg>商品主图</div><span class="img-count">5 图</span></div>
+        <div class="pc-img"><div data-art="display"></div><span class="img-count">5 图 · 工艺线稿</span></div>
         <div class="pc-body">
           <div class="decision-band">
             <div class="price-line"><span class="price-main"><span class="cur">¥</span>8.60</span><span class="price-step">≥500 <b>¥7.20</b></span></div>
@@ -232,8 +261,8 @@
             <div class="decision-meta"><span class="moq"><b>30</b> 件起批</span><span class="tag-lead">72h发货</span></div>
           </div>
           <div class="pc-title">亚克力展示架 透明陈列架 化妆品店桌面展示道具</div>
-          <div class="pc-sold">30天成交 <b>3,180</b> 件 · 回头率 35%</div>
-          <div class="pc-supplier">东莞长安精密塑胶厂 <span class="loc">· 广东东莞</span></div>
+          <div class="pc-sold">30天成交 <b>3,180</b> 件 <span class="spark" data-spark="flat"></span> <span class="trend-dn">+2%</span> · 回头率 35%</div>
+          <div class="pc-supplier">东莞长安精密塑胶厂 <span class="loc">· 广东东莞</span> <span class="trust-meter"><span class="trust-bar"><i style="width:89%"></i></span>89</span></div>
           <div class="pc-bottom">
             <div class="badge-row"><span class="badge-tag qual">支持定制</span><span class="badge-tag">7天无理由</span></div>
             <div class="pc-spec">SPEC D-778 · 多规格</div>
@@ -243,7 +272,7 @@
       </div>
 
       <div class="product-card">
-        <div class="pc-img"><div class="ph"><svg class="ico ico-lg glyph" style="width:52px;height:52px"><use href="#i-shield"></use></svg>商品主图</div><span class="img-count">7 图</span></div>
+        <div class="pc-img"><div data-art="bottle"></div><span class="img-count">7 图 · 工艺线稿</span></div>
         <div class="pc-body">
           <div class="decision-band">
             <div class="price-line"><span class="price-main"><span class="cur">¥</span>1.25</span><span class="price-step">≥10000 <b>¥0.98</b></span></div>
@@ -252,8 +281,8 @@
             <div class="decision-meta"><span class="moq"><b>1000</b> 个起批</span><span class="tag-lead">48h发货</span></div>
           </div>
           <div class="pc-title">化妆品分装瓶 真空按压瓶 旅行套装包材 支持定制</div>
-          <div class="pc-sold">30天成交 <b>12万</b> 件 · 回头率 44%</div>
-          <div class="pc-supplier">广州白云美辰包装材料厂 <span class="loc">· 广东广州</span></div>
+          <div class="pc-sold">30天成交 <b>12万</b> 件 <span class="spark" data-spark="up"></span> <span class="trend-up">+42%</span> · 回头率 44%</div>
+          <div class="pc-supplier">广州白云美辰包材 <span class="loc">· 广东广州</span> <span class="trust-meter"><span class="trust-bar"><i style="width:97%"></i></span>97</span></div>
           <div class="pc-bottom">
             <div class="badge-row"><span class="badge-tag qual">源头工厂</span><span class="badge-tag">支持定制</span></div>
             <div class="pc-spec">SPEC E-231 · 6规格</div>
@@ -263,7 +292,7 @@
       </div>
 
       <div class="product-card">
-        <div class="pc-img"><div class="ph"><svg class="ico ico-lg glyph" style="width:52px;height:52px"><use href="#i-cog"></use></svg>商品主图</div><span class="img-count">6 图</span></div>
+        <div class="pc-img"><div data-art="shelf"></div><span class="img-count">6 图 · 工艺线稿</span></div>
         <div class="pc-body">
           <div class="decision-band">
             <div class="price-line"><span class="price-main"><span class="cur">¥</span>32.10</span><span class="price-step">≥300 <b>¥28.50</b></span></div>
@@ -272,8 +301,8 @@
             <div class="decision-meta"><span class="moq"><b>50</b> 件起批</span><span class="tag-lead">72h发货</span></div>
           </div>
           <div class="pc-title">铝合金折叠置物架 免打孔浴室收纳架 承重加强</div>
-          <div class="pc-sold">30天成交 <b>2,090</b> 件 · 回头率 31%</div>
-          <div class="pc-supplier">佛山南海铝制品加工厂 <span class="loc">· 广东佛山</span></div>
+          <div class="pc-sold">30天成交 <b>2,090</b> 件 <span class="spark" data-spark="flat"></span> <span class="trend-dn">+5%</span> · 回头率 31%</div>
+          <div class="pc-supplier">佛山南海铝制品加工厂 <span class="loc">· 广东佛山</span> <span class="trust-meter"><span class="trust-bar"><i style="width:88%"></i></span>88</span></div>
           <div class="pc-bottom">
             <div class="badge-row"><span class="badge-tag qual">源头工厂</span><span class="badge-tag">现货</span></div>
             <div class="pc-spec">SPEC F-640 · 3规格</div>
@@ -296,6 +325,22 @@
 </div><div class="footer-bottom wrap">© 2026 源集 YUANJI · 本设计为产品演示，数据均为模拟</div></footer>
 
 <div class="toast" id="toast"></div>
+<script src="assets/product-art.js"></script>
+<script>
+// 微趋势 sparkline：用确定性高度序列生成，避免随机数导致的抖动
+(function(){
+  var PATTERNS = {
+    up:   [3,5,4,7,6,9,8,11,10,13],
+    flat: [6,7,6,8,7,7,8,7,9,8]
+  };
+  document.querySelectorAll('[data-spark]').forEach(function(el){
+    var seq = PATTERNS[el.getAttribute('data-spark')] || PATTERNS.flat;
+    el.innerHTML = seq.map(function(h,i){
+      return '<i style="height:'+h+'px'+(i>=8?'" class="up':'"')+'></i>';
+    }).join('');
+  });
+})();
+</script>
 <script src="assets/app.js"></script>
 </body>
 </html>

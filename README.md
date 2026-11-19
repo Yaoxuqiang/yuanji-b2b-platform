@@ -68,7 +68,8 @@ npx serve .
 │   ├── tokens.css                     # 设计令牌：色板/字体/圆角/间距/网格
 │   ├── app.css                        # 全局共享组件样式（导航/卡片/侧栏等）
 │   ├── app.js                         # 共享交互：询价篮/采购车/对比/角标/Toast
-│   └── icons.js                       # 内联 SVG 线性图标 sprite（Swiss 风格）
+│   ├── icons.js                       # 内联 SVG 线性图标 sprite（Swiss 风格）
+│   └── product-art.js                 # 工艺线稿商品图生成器（创新点，替换占位图）
 └── design-images/                     # 高保真设计稿 PNG（00 规范 + 四页面）
     ├── 00-design-spec.png
     ├── 01-home.png
@@ -137,6 +138,7 @@ npx serve .
 | 技术栈 | 原生 HTML + CSS + JavaScript，零依赖、零构建 |
 | 设计令牌 | `tokens.css` 用 CSS 变量统一色板、字体、圆角、间距、阴影 |
 | 图标 | `icons.js` 内联 SVG sprite，`<use href="#i-xxx">` 复用，Swiss 线性风格 |
+| 商品图 | `product-art.js` 按品类（保温杯/快递袋/耳机/展示架/分装瓶/置物架）程序化生成工程线稿，含尺寸标注，零外链、去占位符 |
 | 跨页状态 | `localStorage` 键 `yj_inquiry`（询价篮）、`yj_cart`（采购车） |
 | 交互封装 | `app.js` 暴露 `window.YJ`：`addInquiry/removeInquiry/clearInquiry/addCart/read/write/toast/refreshBadges` |
 | 状态反馈 | Toast 提示、导航角标（询价篮/采购车）实时联动 |

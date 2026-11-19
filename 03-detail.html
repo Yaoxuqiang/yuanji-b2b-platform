@@ -12,8 +12,11 @@
   .gallery-main use { fill:none; stroke:var(--blue-300); stroke-width:1; }
   .gallery-main svg { width:140px; height:140px; fill:none; stroke:currentColor; stroke-width:1; stroke-linecap:square; stroke-linejoin:miter; }
   .gallery-thumbs { display:flex; gap:8px; margin-top:10px; }
-  .gallery-thumbs .t { width:62px; height:62px; border:1px solid var(--line); display:grid; place-items:center; color:var(--blue-300); cursor:pointer; background:var(--surface); }
+  .gallery-thumbs .t { width:62px; height:62px; border:1px solid var(--line); display:grid; place-items:center; color:var(--blue-300); cursor:pointer; background:var(--surface); padding:5px; }
   .gallery-thumbs .t.active { border-color:var(--blue-700); border-width:2px; }
+  .gallery-thumbs .t [data-art] { color:var(--blue-500); }
+  .gallery-main [data-art] { width:76%; height:76%; color:var(--blue-700); }
+  .gallery-main [data-art] svg { width:100%; height:100%; }
   .d-title { font-size:19px; font-weight:700; line-height:1.5; margin:0 0 8px; }
   .d-sub { font-size:12px; color:var(--ink-500); margin-bottom:16px; display:flex; gap:14px; flex-wrap:wrap; }
   .d-sub b { color:var(--blue-700); font-family:var(--font-num); }
@@ -93,13 +96,13 @@
   <div class="detail-layout">
 
     <div>
-      <div class="gallery-main"><svg id="gallery-main"><use href="#i-package"></use></svg></div>
+      <div class="gallery-main" id="gallery-main"><div data-art="tumbler"></div></div>
       <div class="gallery-thumbs">
-        <div class="t active" data-sym="i-package"><svg class="ico ico-lg"><use href="#i-package"></use></svg></div>
-        <div class="t" data-sym="i-shield"><svg class="ico ico-lg"><use href="#i-shield"></use></svg></div>
-        <div class="t" data-sym="i-ruler"><svg class="ico ico-lg"><use href="#i-ruler"></use></svg></div>
-        <div class="t" data-sym="i-cog"><svg class="ico ico-lg"><use href="#i-cog"></use></svg></div>
-        <div class="t" data-sym="i-verified"><svg class="ico ico-lg"><use href="#i-verified"></use></svg></div>
+        <div class="t active" data-art="tumbler"><div data-art="tumbler"></div></div>
+        <div class="t" data-art="bottle"><div data-art="bottle"></div></div>
+        <div class="t" data-art="display"><div data-art="display"></div></div>
+        <div class="t" data-art="shelf"><div data-art="shelf"></div></div>
+        <div class="t" data-art="bag"><div data-art="bag"></div></div>
       </div>
       <p class="tiny muted" style="margin-top:10px">源头工厂实拍 · 支持实物打样 · 详情图 6 张</p>
       <div class="panel" style="margin-top:14px;padding:14px 16px">
@@ -110,6 +113,17 @@
           <div style="display:flex;justify-content:space-between"><span>包装与物流分摊</span><b>¥1.40</b></div>
           <div style="display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:6px;margin-top:6px"><b>合计（500件档）</b><b class="price-color">¥10.70</b></div>
         </div>
+      </div>
+      <div class="panel" style="margin-top:14px;padding:14px 16px">
+        <div class="swiss-num" style="margin-bottom:6px">30-DAY VOLUME / 成交趋势</div>
+        <svg viewBox="0 0 240 56" width="100%" height="56" preserveAspectRatio="none" aria-label="近30天成交量趋势">
+          <polyline points="0,44 22,40 44,43 66,32 88,35 110,24 132,28 154,18 176,22 198,12 220,16 240,8 240,56 0,56" fill="var(--blue-050)" stroke="none"/>
+          <g fill="none" stroke="var(--blue-700)" stroke-width="1.8">
+            <polyline points="0,44 22,40 44,43 66,32 88,35 110,24 132,28 154,18 176,22 198,12 220,16 240,8"/>
+          </g>
+          <line x1="0" y1="56" x2="240" y2="56" stroke="var(--line)" stroke-width="1"/>
+        </svg>
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--ink-400);font-family:var(--font-num);margin-top:3px"><span>06-01</span><span>近 30 日 · 峰值为 618 采购节</span><span>06-30</span></div>
       </div>
     </div>
 
@@ -195,14 +209,18 @@
 </div><div class="footer-bottom wrap">© 2026 源集 YUANJI · 本设计为产品演示，数据均为模拟</div></footer>
 
 <div class="toast" id="toast"></div>
+<script src="assets/product-art.js"></script>
 <script src="assets/app.js"></script>
 <script>
 (function(){
+  // 主图切换：用工艺线稿替换（去占位符）
+  window.YJ_ART.mount(document);
   document.querySelectorAll('.gallery-thumbs .t').forEach(function(t){
     t.addEventListener('click',function(){
       document.querySelectorAll('.gallery-thumbs .t').forEach(function(x){x.classList.remove('active');});
       t.classList.add('active');
-      document.querySelector('#gallery-main use').setAttribute('href','#'+t.getAttribute('data-sym'));
+      var type=t.getAttribute('data-art');
+      document.querySelector('#gallery-main').innerHTML=window.YJ_ART.render(type);
     });
   });
   document.querySelectorAll('.sku-row').forEach(function(row){

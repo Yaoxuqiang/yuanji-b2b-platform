@@ -87,3 +87,19 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 /* ---- Swiss 编号标签 ---- */
 .swiss-num { font-family: var(--font-num); font-size: 11px; font-weight: 700; color: var(--blue-700); letter-spacing: 1px; }
+
+/* ---- 商品工艺线稿（Blueprint Product Art） ---- */
+.p-art { width: 100%; height: 100%; color: var(--blue-700); display: block; }
+[data-art] { width: 100%; height: 100%; display: grid; place-items: center; color: var(--blue-700); }
+
+/* ---- 微趋势线 / 数据故事 ---- */
+.spark { display: inline-flex; align-items: flex-end; gap: 1px; height: 14px; vertical-align: -2px; }
+.spark i { display: block; width: 3px; background: var(--blue-300); }
+.spark i.up { background: var(--blue-700); }
+.trend-up { color: var(--price); }
+.trend-dn { color: var(--ink-500); }
+
+/* ---- 可信度刻度（供应商评分条） ---- */
+.trust-meter { display: flex; align-items: center; gap: 6px; }
+.trust-bar { flex: 1; height: 3px; background: var(--line); max-width: 54px; }
+.trust-bar i { display: block; height: 100%; background: var(--blue-700); }
