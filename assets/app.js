@@ -127,7 +127,37 @@
     return save(draft) ? `已提交 ${selected.length} 条模拟询盘` : `已生成 ${selected.length} 条询盘，仅在当前页保留`;
   }
 
-  const api = { catalog, categories, product, skuFor, quote, money, leadText, soldText, state, save, lineKey, addCart, appendBasket, addBasket, submitBasket, detailLink, listingLink };
+  function cssEscape(value) {
+    return root.CSS?.escape ? root.CSS.escape(value) : String(value).replace(/[^\w-]/g, '\\$&');
+  }
+  function selectorOf(el) {
+    if (!el?.tagName) return '';
+    if (el === root.document?.documentElement) return 'html';
+    if (el.id) return '#' + cssEscape(el.id);
+    const parts = [];
+    let node = el;
+    while (node && node.nodeType === 1 && node !== root.document.body && parts.length < 6) {
+      let part = node.tagName.toLowerCase();
+      const attr = ['data-view', 'data-tab', 'data-pane', 'data-line', 'data-group', 'data-inquire', 'data-compare'].find(name => node.hasAttribute(name));
+      const classes = [...node.classList].filter(name => !name.startsWith('yj-') && !name.startsWith('is-')).slice(0, 2);
+      if (attr) part += `[${attr}="${node.getAttribute(attr)}"]`;
+      else if (classes.length) part += '.' + classes.map(cssEscape).join('.');
+      const parent = node.parentElement;
+      if (parent) {
+        const sameTag = [...parent.children].filter(child => child.tagName === node.tagName);
+        if (sameTag.length > 1) part += `:nth-of-type(${sameTag.indexOf(node) + 1})`;
+        if (parent.id) {
+          parts.unshift(part);
+          return '#' + cssEscape(parent.id) + ' > ' + parts.join(' > ');
+        }
+      }
+      parts.unshift(part);
+      node = parent;
+    }
+    return parts.join(' > ');
+  }
+
+  const api = { catalog, categories, product, skuFor, quote, money, leadText, soldText, state, save, lineKey, addCart, appendBasket, addBasket, submitBasket, detailLink, listingLink, selectorOf };
   if (!root.document) { module.exports = api; return; }
 
   const $ = (s, parent = document) => parent.querySelector(s);
@@ -178,7 +208,7 @@
       <form class="search" action="02-listing.html" role="search"><input type="search" name="kw" aria-label="搜索商品、货号或供应商" placeholder="搜商品、货号或供应商"><button type="button" class="button image-search">${icon('image')}图片找货</button><button class="button primary" type="submit">搜索</button></form>
       <nav class="header-actions" aria-label="账户和采购"><a href="04-workbench.html?tab=cart">${icon('cart')}采购车 <span class="badge" data-count="cart"></span></a><a href="04-workbench.html?tab=inquiry">${icon('inquiry')}询价篮 <span class="badge" data-count="basket"></span></a><button class="link" id="account" type="button">${icon('user')}登录 / 注册</button></nav></div>`;
     document.body.insertAdjacentHTML('beforeend', '<dialog class="dialog" id="modal" aria-labelledby="modal-title"></dialog><div class="toast" id="toast" role="status" hidden></div>');
-    $('.search input').value = params.get('kw') || (document.body.dataset.page === 'listing' && !location.search ? '保温杯' : '');
+    $('.search input').value = params.get('kw') || (document.body.dataset.page === 'listing' && [...params.keys()].every(key => key === 'inspect') ? '保温杯' : '');
     $('.image-search').onclick = () => {
       const box = dialog('图片找货', '<p class="muted">选择或拖入一张图片。此功能仅演示本地选图，不上传、不识别商品。</p><label>选择本地图片 <input name="image" type="file" accept="image/*" required></label>', '查看示例结果', data => {
         if (!data.get('image')?.type?.startsWith('image/')) return '请选择图片文件';

@@ -28,7 +28,8 @@
   }
 
   function listing() {
-    const defaultView = !location.search;
+    // The ?inspect=1 annotation overlay must not change the default demo view.
+    const defaultView = [...params.keys()].every(key => key === 'inspect');
     const keyword = (params.get('kw') || (defaultView ? '保温杯' : '')).trim();
     const ctx = { cat:params.get('cat') || '', sub:params.get('sub') || '', scene:params.get('scene') || '' };
     const groups = [
@@ -370,7 +371,7 @@
     }).join('');
     const months = [['6 月',18200],['7 月',21500],['8 月',19800],['9 月',25300],['10 月',23100],['本月',48730]];
     const last = months.at(-1)[1];
-    $$('[data-summary]').forEach(el => { el.innerHTML = `<div class="kpis"><dl><dt>采购额</dt><dd class="money">${money(last*100)}</dd><small class="muted">已确认订单金额</small></dl><dl><dt>节支</dt><dd class="money">${money(326000)}</dd><small class="muted">模拟议价前后差额</small></dl><dl><dt>头部供应商占比</dt><dd class="money">65%</dd><progress max="100" value="65" aria-label="头部供应商采购额占比 65%"></progress><small class="muted">采购额最高一家 / 本月采购额</small></dl></div>`; });
+    $$('[data-summary]').forEach(el => { el.innerHTML = `<div class="kpis"><dl><dt>采购额</dt><dd class="money">${money(last*100)}</dd><small class="muted">已确认订单金额</small></dl><dl><dt>节支</dt><dd class="money">${money(32600)}</dd><small class="muted">模拟议价前后差额</small></dl><dl><dt>头部供应商占比</dt><dd class="money">65%</dd><progress max="100" value="65" aria-label="头部供应商采购额占比 65%"></progress><small class="muted">采购额最高一家 / 本月采购额</small></dl></div>`; });
     $('#purchase-chart').innerHTML = `<h3 class="sub-heading">近 6 个月采购额</h3><ul class="purchase-bars">${months.map(([m,v]) => `<li><span>${m}</span><progress aria-label="${m}采购额" value="${v}" max="${last}"></progress><b class="money">${money(v*100)}</b></li>`).join('')}</ul>`;
     function refresh() { if (tab === 'cart') refreshCart(); else if (tab === 'inquiry') refreshInquiry(); }
     addEventListener('yj-change',refresh);
